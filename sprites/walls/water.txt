@@ -1,0 +1,45 @@
+<HEADER>
+frames 11
+width 6
+height 2
+color blue
+slowdown 5
+</HEADER>
+<BODY>
+\_/\/\
+/\/\_/
+end
+/\_/\/
+_/\/\_
+end
+\/\_/\
+__/\/\
+end
+/\/\_/
+\__/\/
+end
+_/\/\_
+/\__/\
+end
+__/\/\
+\/\__/
+end
+\__/\/
+/\/\__
+end
+/\__/\
+_/\/\_
+end
+\/\__/
+\_/\/\
+end
+/\/\__
+/\_/\/
+end
+_/\/\_
+\/\_/\
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

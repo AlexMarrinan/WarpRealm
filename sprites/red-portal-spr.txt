@@ -1,0 +1,30 @@
+<HEADER>
+frames 6
+width 3
+height 2
+color red
+slowdown 1
+</HEADER>
+<BODY>
+o-\
+\_/
+end
+/o\
+\_/
+end
+/-o
+\_/
+end
+/-\
+\_o
+end
+/-\
+\o/
+end
+/-\
+o_/
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>
