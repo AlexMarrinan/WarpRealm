@@ -1,3 +1,4 @@
+#pragma once
 #include "Object.h"
 #include "ViewObject.h"
 #include "Event.h"

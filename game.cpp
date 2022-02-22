@@ -15,12 +15,14 @@
 #include "game.h"
 #include "Wall.h"
 #include "Room.h"
+#include "Key.h"
 
 void loadResources(void) {
     RM.loadSprite("sprites/walls/h_1.txt", WALL_H1_STR);
     RM.loadSprite("sprites/walls/v_1.txt", WALL_V1_STR);
     RM.loadSprite("sprites/walls/n_1.txt", WALL_N1_STR);
     RM.loadSprite("sprites/walls/water.txt", WALL_WATER_STR);
+    RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DL_STR);
 
     RM.loadSprite("sprites/walls/h_1_p.txt", WALL_H1_STR_P);
     RM.loadSprite("sprites/walls/v_1_p.txt", WALL_V1_STR_P);
@@ -28,11 +30,13 @@ void loadResources(void) {
 
     RM.loadSprite("sprites/blue-portal-spr.txt", "blue-portal");
     RM.loadSprite("sprites/red-portal-spr.txt", "red-portal");
-    //OLD
-    RM.loadSprite("sprites/saucer-spr.txt", "saucer");
-    RM.loadSprite("sprites/ship-spr.txt", "ship");
     RM.loadSprite("sprites/bullet-spr.txt", "bullet");
     RM.loadSprite("sprites/red-bullet-spr.txt", "red-bullet");
+    RM.loadSprite("sprites/ship-spr.txt", "ship");
+    RM.loadSprite("sprites/key-spr.txt", "key");
+
+    //OLD
+   // RM.loadSprite("sprites/saucer-spr.txt", "saucer");
 
     RM.loadSprite("sprites/laser-spr.txt", "laser");
     RM.loadSprite("sprites/explosion-spr.txt", "explosion");
@@ -79,8 +83,11 @@ void populateWorld() {
     Room* r3 = new Room("rooms/03.txt");
     r3->setNextRoom(r1, RoomDirection::RIGHT);
     r1->setNextRoom(r3, RoomDirection::LEFT);
-    // Spawn GameStart object.
-    //new GameStart;
+    Room* r4 = new Room("rooms/04.txt");
+    r1->setNextRoom(r4, RoomDirection::UP);
+    r4->setNextRoom(r1, RoomDirection::DOWN);
+    new Points;
+    //new Key(Vector(35, 7));
 }
 //spawns regular saucers 95% and big saucers 5%
 void spawnSaucer(int prob) {

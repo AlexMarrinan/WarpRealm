@@ -5,6 +5,8 @@
 #include <streambuf>`
 #include "LogManager.h"
 #include "WorldManager.h"
+#include "Key.h"
+#include "LockedDoor.h"
 
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
@@ -29,6 +31,7 @@ void Room::loadWalls(std::string filename) {
 			arr[i][k] = input[k];
 		}
 	}
+	int item_id = 0;
 	for (int i = 0; i < ROOM_HEIGHT+1; i++)
 	{
 		for (int k = 0; k < ROOM_WIDTH+1; k++)
@@ -47,10 +50,18 @@ void Room::loadWalls(std::string filename) {
 				else {
 					wt = N_1;
 				}
-				walls.push_back(WallContainer(wt, Vector(k*2+4, i*2+1), (c == PORTAL_TILE)));
+				walls.push_back(new WallContainer(wt, Vector(k*2+4, i*1.95+0.5), (c == PORTAL_TILE)));
 			}
 			else if (c == WATER_TILE){
-				walls.push_back(WallContainer(WATER, Vector(k *2+4, i	* 2 + 1), false));
+				walls.push_back(new WallContainer(WATER, Vector(k *2+4, i*1.95+0.5), false));
+			}
+			else if (c == KEY_TILE) {
+				items.push_back(new ItemContainer(KEY, Vector(k * 2 + 4, i * 1.95 + 0.5), item_id));
+				item_id++;
+			}
+			else if (c == LOCKEDDOOR_TILE) {
+				items.push_back(new ItemContainer(LOCKED_DOOR, Vector(k * 2 + 4, i * 1.95 + 0.5), item_id));
+				item_id++;
 			}
 			else if (c == FLOOR_TILE) {
 				//Dont make any walls
@@ -60,10 +71,26 @@ void Room::loadWalls(std::string filename) {
 }
 void Room::loadRoom() {
 	for (int i = 0; i < walls.size(); i++) {
-		LM.writeLog("In load rooms");
-		WallContainer wc = walls[i];
+		//LM.writeLog("In load rooms");
+		WallContainer wc = *walls[i];
 		Wall* w = new Wall(wc.getType(), wc.getPosition(), wc.isPoralable());
 		loaded.insert(w);
+	}
+	for (int i = 0; i < items.size(); i++) {
+		ItemContainer ic = *items[i];
+		LM.writeLog("should load: %d", ic.shouldLoad());
+		if (ic.shouldLoad()) {
+			if (ic.getType() == KEY) {
+				Key* key = new Key(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(key);
+			}
+			if (ic.getType() == LOCKED_DOOR) {
+				LockedDoor* door = new LockedDoor(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(door);
+			}
+		}
 	}
 }
 void Room::unloadRoom() {
@@ -102,3 +129,19 @@ Room* Room::getNextRoom(RoomDirection direction) {
 	}
 	return NULL;
 }
+void Room::removeObject(Object* p_o) {
+	loaded.remove(p_o);
+}
+
+void Room::markItemUnload(int id) {
+	for (int i = 0; i < items.size(); i++) {
+		ItemContainer* ic = items[i];
+		if (ic->getId() == id) {
+			LM.writeLog("found ic %d, marking for unload", ic->getId());
+			ic->should_load = false;
+			LM.writeLog("ic marked %d", ic->shouldLoad());
+			return;
+		}
+	}
+}
+

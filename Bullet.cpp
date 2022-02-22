@@ -7,14 +7,17 @@
 #include "EventOut.h"
 #include "Wall.h"
 #include "Portal.h"
+#include "Hero.h"
 
 Bullet::Bullet() {
 
 }
-Bullet::Bullet(df::Vector hero_pos, bool isBlue) {
+Bullet::Bullet(Hero* hero, bool isBlue) {
 	// Note: in Bullet constructor
 	// Make the Bullets soft so can pass through Hero.
 	setSolidness(df::SOFT);
+	this->p_hero = hero;
+	df::Vector hero_pos = hero->getPosition();
 
 	this->isBlue = isBlue;
 	// Link to "ship" sprite.
@@ -35,7 +38,7 @@ Bullet::Bullet(df::Vector hero_pos, bool isBlue) {
 
 	// Bullets move 1 space each game loop.
 	// The direction is set when the Hero fires.
-	setSpeed(1);
+	setSpeed(2);
 }
 
 int Bullet::eventHandler(const df::Event* p_e) {
@@ -72,9 +75,9 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 	}
 	Wall* w = dynamic_cast<Wall*>(p_o);
 	if (w->isPortalable()) {
-		//TODO: SPAWN PORTAL;
 		LM.writeLog("Hit portal surface!");
-		new Portal(getPosition(), this->isBlue);
+		Portal* p = new Portal(getPosition(), p_hero->getPortal(isBlue), this->isBlue);
+		p_hero->setPortal(p, isBlue);
 	}
 	WM.markForDelete(this);
 }

@@ -14,6 +14,9 @@
 #include "DisplayManager.h"
 #include "Points.h"
 #include "EventOut.h"
+#include "Key.h"
+#include "LockedDoor.h"
+#include "EventUnload.h"
 
 #define X_AMOUNT 1
 #define Y_AMOUNT 0.5
@@ -25,6 +28,7 @@ Hero::Hero() {
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::STEP_EVENT);
 	registerInterest(df::MSE_EVENT);
+	registerInterest(UNLOAD_EVENT);
 
 	setType("Hero");
 	df::Vector p(10, WM.getBoundary().getVertical() / 2 + 2);
@@ -34,17 +38,24 @@ Hero::Hero() {
 	p_reticle = new Reticle();
 	p_reticle->draw();
 
-	move_slowdown = 2;
+	move_slowdown = 1;
 	move_countdown = move_slowdown;
 	fire_slowdown = 15;
 	fire_countdown = fire_slowdown;
 	laser_slowdown = 100;
 	laser_countdown = 0;
 	nuke_count = 1;
+	portal_slowdown = 15;
+	portal_cooldown = 0;
 
 	tempLaserPos1 = df::Vector(-100, -100);
 	tempLaserPos2 = df::Vector(-100, -100);
+
+	blue_portal = NULL;
+	red_portal = NULL;
+
 }
+
 Hero::~Hero() {
 	// Create GameOver object.
 	// Shake screen (severity 20 pixels x&y, duration 10 frames).
@@ -84,6 +95,19 @@ int Hero::eventHandler(const df::Event * p_e) {
 	//call step every in game step
 	if (p_e->getType() == df::STEP_EVENT) {
 		step();
+		return 1;
+	}
+	if (p_e->getType() == COLLISION_EVENT) {
+		handleCollisions(dynamic_cast<const EventCollision*>(p_e));
+		return 1;
+	}
+	if (p_e->getType() == UNLOAD_EVENT) {
+		const EventUnload* p_event_unload = (dynamic_cast<const EventUnload*>(p_e));
+		Item* item = p_event_unload->item_to_unload;
+		currentRoom->markItemUnload(item->getId());
+		LM.writeLog("item id: %d", item->getId());
+		WM.markForDelete(item);
+		currentRoom->removeObject(item);
 		return 1;
 	}
 	return 0;
@@ -160,6 +184,10 @@ void Hero::step() {
 	if (laser_countdown < 0) {
 		laser_countdown = 0;
 	}
+	portal_cooldown--;
+	if (portal_cooldown < 0) {
+		portal_cooldown = 0;
+	}
 	df::EventView ev(LASERDISPLAY_STRING, get_laser_charge(), false);
 	WM.onEvent(&ev);
 	//if laser countdown is in first 10 frames, spawn a new laser projectile
@@ -181,18 +209,22 @@ void Hero::out() {
 	}
 	else if (getPosition().getX() < 0 && currentRoom->getNextRoom(RoomDirection::LEFT) != NULL) {
 		r = currentRoom->getNextRoom(RoomDirection::LEFT);
-		v = Vector(WM.getBoundary().getHorizontal() - 4, getPosition().getX());
+		v = Vector(WM.getBoundary().getHorizontal() - 4, getPosition().getY());
 	}
 	else if (getPosition().getX() > WM.getBoundary().getHorizontal() &&
 		currentRoom->getNextRoom(RoomDirection::RIGHT) != NULL) {
 		r = currentRoom->getNextRoom(RoomDirection::RIGHT);
-		v = Vector(2, getPosition().getX());
+		v = Vector(2, getPosition().getY());
 	}
 	else {
 		return;
 	}
 	currentRoom->unloadRoom();
 	r->loadRoom();
+	WM.markForDelete(blue_portal);
+	blue_portal = NULL;
+	WM.markForDelete(red_portal);
+	red_portal = NULL;
 	currentRoom = r;
 	setPosition(v);
 }
@@ -205,7 +237,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	df::Vector v = target - getPosition();
 	v.normalize();
 	v.scale(1);
-	Bullet* p = new Bullet(getPosition(), isBlue);
+	Bullet* p = new Bullet(this, isBlue);
 	p->setVelocity(v);
 
 	// Play "fire" sound.
@@ -254,4 +286,43 @@ void Hero::nuke() {
 }
 int Hero::get_laser_charge() {
 	return abs(laser_countdown - laser_slowdown);
+}
+
+Portal* Hero::getPortal(bool isBlue) const {
+	return isBlue ? blue_portal : red_portal;
+}
+void Hero::setPortal(Portal* new_portal, bool isBlue) {
+	if (isBlue) {
+		blue_portal = new_portal;
+	}
+	else {
+		red_portal = new_portal;
+	}
+}
+void Hero::handleCollisions(const EventCollision* p_ec) {
+	//Object* p_o;
+	if (p_ec->getObject1()->getType() == "Portal") {
+		usePortal(dynamic_cast<Portal*>(p_ec->getObject1()));
+	}
+	else if (p_ec->getObject2()->getType() == "Portal") {
+		usePortal(dynamic_cast<Portal*>(p_ec->getObject2()));
+	}
+	else {
+		return;
+	}
+}
+
+void Hero::usePortal(Portal* p) {
+	LM.writeLog("using portal");
+	if (portal_cooldown <= 0) {
+		portal_cooldown = portal_slowdown;
+		if (p->isBluePortal() && red_portal != NULL) {
+			LM.writeLog("blue");
+			this->setPosition(red_portal->getPosition());
+		}
+		else if (!p->isBluePortal() && blue_portal != NULL){
+			LM.writeLog("red");
+			this->setPosition(blue_portal->getPosition());
+		}
+	}
 }

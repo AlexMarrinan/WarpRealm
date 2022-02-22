@@ -6,11 +6,13 @@
 
 using namespace df;
 
+//Normal Walls
 #define WALL_H1_STR "h_1"
 #define WALL_V1_STR "v_1"
 #define WALL_N1_STR "n_1"
 #define WALL_WATER_STR "water_tile"
-
+#define WALL_DL_STR "door_locked"
+//Portal surfaces
 #define WALL_H1_STR_P "h_1_p"
 #define WALL_V1_STR_P "v_1_p"
 #define WALL_N1_STR_P "n_1_p"

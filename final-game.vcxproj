@@ -157,13 +157,17 @@
   <ItemGroup>
     <ClCompile Include="BigSaucer.cpp" />
     <ClCompile Include="EventNuke.cpp" />
+    <ClCompile Include="EventUnload.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserDisplay.cpp" />
+    <ClCompile Include="LockedDoor.cpp" />
     <ClCompile Include="Points.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -177,13 +181,17 @@
     <ClInclude Include="BigSaucer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="EventNuke.h" />
+    <ClInclude Include="EventUnload.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserDisplay.h" />
+    <ClInclude Include="LockedDoor.h" />
     <ClInclude Include="Points.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Reticle.h" />

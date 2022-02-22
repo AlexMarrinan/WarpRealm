@@ -1,6 +1,6 @@
 #include "Points.h"
 
-int Points::high_score;
+int Points::key_count;
 
 Points::Points() {
 	setLocation(df::TOP_RIGHT);
@@ -18,12 +18,10 @@ int Points::eventHandler(const df::Event* p_e) {
 	}
 	// If step, increment score every second (30 steps).
 	if (p_e->getType() == df::STEP_EVENT) {
-		if (dynamic_cast <const df::EventStep*> (p_e)
+		/*if (dynamic_cast <const df::EventStep*> (p_e)
 			->getStepCount() % 30 == 0)
-			setValue(getValue() + 1);
-		if (this->getValue() > high_score) {
-			high_score = this->getValue();
-		}
+			setValue(getValue() + 1);*/
+		key_count = this->getValue();
 		return 1;
 	}
 	// If get here, have ignored this event.

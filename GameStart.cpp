@@ -30,7 +30,7 @@ GameStart::GameStart() {
     df::ViewObject* p_vo = new df::ViewObject;
     p_vo->setLocation(df::TOP_CENTER);
     p_vo->setViewString("High Score");
-    p_vo->setValue(Points::high_score);
+//    p_vo->setValue(Points::high_score);
     p_vo->setColor(df::YELLOW);
 }
 

@@ -2,12 +2,13 @@
 #include "ViewObject.h"
 #include "Event.h"
 #include "EventStep.h"
-#define POINTS_STRING "Points"
+
+#define POINTS_STRING "Keys"
 
 class Points : public df::ViewObject {
 
 public:
     Points();
-    static int high_score;
+    static int key_count;
     int eventHandler(const df::Event* p_e) override;
 };

@@ -1,5 +1,6 @@
-#include "Object.h"
+#pragma once
 #include "EventCollision.h"
+#include "Hero.h"
 
 class Bullet : public df::Object {
 
@@ -9,6 +10,7 @@ private:
     bool isBlue;
 public:
     Bullet();
-    Bullet(df::Vector hero_pos, bool isBlue = true);
+    Bullet(Hero* hero_pos, bool isBlue = true);
+    Hero* p_hero;
     int eventHandler(const df::Event* p_e) override;
 };
