@@ -7,7 +7,9 @@
 #include "WorldManager.h"
 #include "Key.h"
 #include "LockedDoor.h"
-
+#include "Turret.h"
+#include "Button.h"
+#include "Door.h"
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
 	//next_id++;
@@ -50,17 +52,29 @@ void Room::loadWalls(std::string filename) {
 				else {
 					wt = N_1;
 				}
-				walls.push_back(new WallContainer(wt, Vector(k*2+4, i*1.95+0.5), (c == PORTAL_TILE)));
+				walls.push_back(new WallContainer(wt, Vector(k*2+4, i*1.95+1), (c == PORTAL_TILE)));
 			}
 			else if (c == WATER_TILE){
-				walls.push_back(new WallContainer(WATER, Vector(k *2+4, i*1.95+0.5), false));
+				walls.push_back(new WallContainer(WATER, Vector(k *2+4, i*1.95+1), false));
 			}
 			else if (c == KEY_TILE) {
-				items.push_back(new ItemContainer(KEY, Vector(k * 2 + 4, i * 1.95 + 0.5), item_id));
+				items.push_back(new ItemContainer(KEY, Vector(k * 2 + 4, i * 1.95 +1), item_id));
 				item_id++;
 			}
 			else if (c == LOCKEDDOOR_TILE) {
-				items.push_back(new ItemContainer(LOCKED_DOOR, Vector(k * 2 + 4, i * 1.95 + 0.5), item_id));
+				items.push_back(new ItemContainer(LOCKED_DOOR, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
+			else if (c == TURRET_TILE) {
+				items.push_back(new ItemContainer(TURRET, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
+			else if (c == BUTTON_TILE_1) {
+				items.push_back(new ItemContainer(BUTTON, Vector(k * 2 + 4, i * 1.95 + 1), item_id, 0));
+				item_id++;
+			}
+			else if (c == DOOR_TILE_1) {
+				items.push_back(new ItemContainer(DOOR, Vector(k * 2 + 4, i * 1.95 + 1), item_id, 0));
 				item_id++;
 			}
 			else if (c == FLOOR_TILE) {
@@ -85,8 +99,23 @@ void Room::loadRoom() {
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(key);
 			}
-			if (ic.getType() == LOCKED_DOOR) {
+			else if (ic.getType() == LOCKED_DOOR) {
 				LockedDoor* door = new LockedDoor(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(door);
+			}
+			else if (ic.getType() == TURRET) {
+				Turret* turret = new Turret(ic.getPosition());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(turret);
+			}
+			else if (ic.getType() == BUTTON) {
+				Button* button = new Button(ic.getPosition(), ic.getId(), ic.getButtonId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(button);
+			}
+			else if (ic.getType() == DOOR) {
+				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId());
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}

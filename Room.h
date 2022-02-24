@@ -17,7 +17,13 @@
 #define FLOOR_TILE '_'
 #define WATER_TILE 'W'
 #define KEY_TILE 'K'
+#define DOOR_TILE_1 'D'
+#define DOOR_TILE_2 "d"
+#define BUTTON_TILE_1 'B'
+#define BUTTON_TILE_2 'b'
 #define LOCKEDDOOR_TILE 'L'
+#define TURRET_TILE 'T'
+
 
 #define W_WALL_COLOR GREEN
 #define W_PORTAL_COLOR WHITE

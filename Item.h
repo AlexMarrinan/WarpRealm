@@ -5,6 +5,9 @@
 enum ItemType {
 	KEY = 0,
 	LOCKED_DOOR = 1,
+	TURRET,
+	BUTTON,
+	DOOR,
 };
 
 class Item : public df::Object
@@ -25,14 +28,18 @@ private:
 	ItemType type;
 	df::Vector position;
 	int id;
+	int button_id;
 public:
 	bool should_load;
 	ItemContainer(ItemType type, df::Vector position, int id);
+	ItemContainer(ItemType type, df::Vector position, int id, int button_id);
+
 	ItemType getType() const;
 	df::Vector getPosition() const;
 	void setLoad(bool new_load = false);
 	bool shouldLoad() const;
 	int getId() const;
+	int getButtonId() const;
 };
 
 

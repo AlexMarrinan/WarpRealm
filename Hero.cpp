@@ -6,6 +6,7 @@
 #include "EventStep.h"
 #include "EventMouse.h"
 #include "EventNuke.h"
+#include "EventDetect.h"
 #include "Laser.h"
 #include "LaserDisplay.h"
 #include "EventView.h"
@@ -17,6 +18,8 @@
 #include "Key.h"
 #include "LockedDoor.h"
 #include "EventUnload.h"
+#include "Enemy.h"
+#include "HealthDisplay.h"
 
 #define X_AMOUNT 1
 #define Y_AMOUNT 0.5
@@ -171,6 +174,10 @@ void Hero::move(float dx, float dy) {
 		return;
 }
 void Hero::step() {
+	//Detect Event
+	EventDetect ed(this);
+	WM.onEvent(&ed);
+
 	// Move countdown.
 	move_countdown--;
 	if (move_countdown < 0)
@@ -190,6 +197,10 @@ void Hero::step() {
 	}
 	df::EventView ev(LASERDISPLAY_STRING, get_laser_charge(), false);
 	WM.onEvent(&ev);
+
+	//STUPID HACKY WAY TO ALLWAYS CHECK COLLISIONS
+	//TODO: maybe make less shit
+	WM.moveObject(this, getPosition());
 	//if laser countdown is in first 10 frames, spawn a new laser projectile
 	if (laser_countdown <= laser_slowdown && laser_countdown >= laser_slowdown - 10) {
 		spawn_laser();
@@ -307,9 +318,17 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 	else if (p_ec->getObject2()->getType() == "Portal") {
 		usePortal(dynamic_cast<Portal*>(p_ec->getObject2()));
 	}
-	else {
-		return;
+	else if (p_ec->getObject1()->getType() == "Enemy") {
+		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
+		df::EventView ev(HEALTH_STRING, -e->getDamage() , true);
+		WM.onEvent(&ev);
 	}
+	else if (p_ec->getObject2()->getType() == "Enemy") {
+		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
+		df::EventView ev(HEALTH_STRING, -e->getDamage(), true);
+		WM.onEvent(&ev);
+	}
+	return;
 }
 
 void Hero::usePortal(Portal* p) {
@@ -325,4 +344,23 @@ void Hero::usePortal(Portal* p) {
 			this->setPosition(blue_portal->getPosition());
 		}
 	}
+}
+bool Hero::intersectsObject(Object* obj) {
+	df::Box A = this->getBox();
+	df::Box B = obj->getBox();
+	float Ax1 = A.getCorner().getX();
+	float Bx1 = B.getCorner().getX();
+	float Ax2 = A.getCorner().getX() + A.getHorizontal();
+	float Bx2 = B.getCorner().getX() + B.getHorizontal();
+	//writeMessage("ax1: %f bx1: %f ax2: %f bx2:%f\n", Ax1, Bx1, Ax2, Bx2);
+	bool x_overlap = (Bx1 <= Ax1 && Ax1 <= Bx2) || (Ax1 <= Bx1 && Bx1 <= Ax2);
+
+	float Ay1 = A.getCorner().getY();
+	float By1 = B.getCorner().getY();
+	float Ay2 = A.getCorner().getY() + A.getVertical();
+	float By2 = B.getCorner().getY() + B.getVertical();
+	//writeMessage("ay1: %f by1: %f ay2: %f by2:%f\n\n", Ay1, By1, Ay2, By2);
+	bool y_overlap = (By1 <= Ay1 && Ay1 <= By2) || (Ay1 <= By1 && By1 <= Ay2);
+
+	return (x_overlap && y_overlap);
 }

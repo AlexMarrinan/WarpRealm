@@ -7,7 +7,7 @@
 #include "Wall.h"
 
 LockedDoor::LockedDoor(df::Vector positon, int id) {
-	setSprite(WALL_DL_STR);
+	setSprite(WALL_DLH_STR);
 	setType("Locked Door");
 	setPosition(positon);
 	setSolidness(df::Solidness::HARD);

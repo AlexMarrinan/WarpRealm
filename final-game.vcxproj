@@ -155,13 +155,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="BigSaucer.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EventButton.cpp" />
+    <ClCompile Include="EventDetect.cpp" />
     <ClCompile Include="EventNuke.cpp" />
     <ClCompile Include="EventUnload.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameStart.cpp" />
+    <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Key.cpp" />
@@ -175,17 +182,25 @@
     <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Star.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="BigSaucer.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EventButton.h" />
+    <ClInclude Include="EventDetect.h" />
     <ClInclude Include="EventNuke.h" />
     <ClInclude Include="EventUnload.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameStart.h" />
+    <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Key.h" />
@@ -198,6 +213,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="Saucer.h" />
     <ClInclude Include="Star.h" />
+    <ClInclude Include="Turret.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,13 @@
+<HEADER>
+frames 1
+width 0
+height 0
+color yellow
+slowdown 
+</HEADER>
+<BODY>
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

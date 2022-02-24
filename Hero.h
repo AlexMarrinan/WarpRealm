@@ -45,4 +45,5 @@ public:
     void setPortal(Portal* p, bool isBlue = true);
     void handleCollisions(const EventCollision* p_ec);
     void usePortal(Portal* p);
+    bool intersectsObject(Object* i);
 };

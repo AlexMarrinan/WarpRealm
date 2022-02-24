@@ -16,13 +16,16 @@
 #include "Wall.h"
 #include "Room.h"
 #include "Key.h"
+#include "HealthDisplay.h"
 
 void loadResources(void) {
     RM.loadSprite("sprites/walls/h_1.txt", WALL_H1_STR);
     RM.loadSprite("sprites/walls/v_1.txt", WALL_V1_STR);
     RM.loadSprite("sprites/walls/n_1.txt", WALL_N1_STR);
     RM.loadSprite("sprites/walls/water.txt", WALL_WATER_STR);
-    RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DL_STR);
+    RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DLH_STR);
+    RM.loadSprite("sprites/walls/door_v.txt", WALL_DV_STR);
+    RM.loadSprite("sprites/walls/door_v_open.txt", WALL_DVO_STR);
 
     RM.loadSprite("sprites/walls/h_1_p.txt", WALL_H1_STR_P);
     RM.loadSprite("sprites/walls/v_1_p.txt", WALL_V1_STR_P);
@@ -34,7 +37,12 @@ void loadResources(void) {
     RM.loadSprite("sprites/red-bullet-spr.txt", "red-bullet");
     RM.loadSprite("sprites/ship-spr.txt", "ship");
     RM.loadSprite("sprites/key-spr.txt", "key");
-
+    RM.loadSprite("sprites/turret-spr.txt", "turret");
+    RM.loadSprite("sprites/arrow-h-spr.txt", "arrow-h");
+    RM.loadSprite("sprites/arrow-v-spr.txt", "arrow-v");
+    RM.loadSprite("sprites/button-on-spr.txt", "button-on");
+    RM.loadSprite("sprites/button-off-spr.txt", "button-off");
+    RM.loadSprite("sprites/empty-spr.txt", "empty");
     //OLD
    // RM.loadSprite("sprites/saucer-spr.txt", "saucer");
 
@@ -60,8 +68,8 @@ void loadResources(void) {
 void populateWorld() {
 
     // Spawn some Stars.
-    for (int i = 0; i < 16; i++)
-        new Star;
+   // for (int i = 0; i < 16; i++)
+    //    new Star;
 
     Hero* hero = new Hero;
     /*
@@ -86,7 +94,12 @@ void populateWorld() {
     Room* r4 = new Room("rooms/04.txt");
     r1->setNextRoom(r4, RoomDirection::UP);
     r4->setNextRoom(r1, RoomDirection::DOWN);
+    Room* r5 = new Room("rooms/05.txt");
+    r2->setNextRoom(r5, RoomDirection::LEFT);
+    r5->setNextRoom(r2, RoomDirection::RIGHT);
+
     new Points;
+    new HealthDisplay;
     //new Key(Vector(35, 7));
 }
 //spawns regular saucers 95% and big saucers 5%
