@@ -193,6 +193,10 @@ void Hero::step() {
 	}
 	portal_cooldown--;
 	if (portal_cooldown < 0) {
+		if (red_portal != NULL && blue_portal != NULL) {
+			red_portal->setSolidness(HARD);
+			blue_portal->setSolidness(HARD);
+		}
 		portal_cooldown = 0;
 	}
 	df::EventView ev(LASERDISPLAY_STRING, get_laser_charge(), false);
@@ -247,7 +251,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	// Compute normalized vector to position, then scale by speed (1).
 	df::Vector v = target - getPosition();
 	v.normalize();
-	v.scale(1);
+	v.scale(3);
 	Bullet* p = new Bullet(this, isBlue);
 	p->setVelocity(v);
 
@@ -313,9 +317,11 @@ void Hero::setPortal(Portal* new_portal, bool isBlue) {
 void Hero::handleCollisions(const EventCollision* p_ec) {
 	//Object* p_o;
 	if (p_ec->getObject1()->getType() == "Portal") {
+		LM.writeLog("hitting portal");
 		usePortal(dynamic_cast<Portal*>(p_ec->getObject1()));
 	}
 	else if (p_ec->getObject2()->getType() == "Portal") {
+		LM.writeLog("hitting portal");
 		usePortal(dynamic_cast<Portal*>(p_ec->getObject2()));
 	}
 	else if (p_ec->getObject1()->getType() == "Enemy") {
@@ -338,10 +344,12 @@ void Hero::usePortal(Portal* p) {
 		if (p->isBluePortal() && red_portal != NULL) {
 			LM.writeLog("blue");
 			this->setPosition(red_portal->getPosition());
+			red_portal->setSolidness(SOFT);
 		}
 		else if (!p->isBluePortal() && blue_portal != NULL){
 			LM.writeLog("red");
 			this->setPosition(blue_portal->getPosition());
+			blue_portal->setSolidness(SOFT);
 		}
 	}
 }

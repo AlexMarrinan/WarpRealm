@@ -3,7 +3,7 @@
 #include "LogManager.h"
 
 Portal::Portal(df::Vector pos, Portal* old_portal, bool blue) {
-	setSolidness(df::Solidness::SOFT);
+	setSolidness(df::Solidness::HARD);
 	setPosition(pos);
 	setAltitude(0);
 	setType("Portal");

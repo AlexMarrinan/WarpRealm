@@ -38,7 +38,7 @@ Bullet::Bullet(Hero* hero, bool isBlue) {
 
 	// Bullets move 1 space each game loop.
 	// The direction is set when the Hero fires.
-	setSpeed(2);
+	setSpeed(5);
 }
 
 int Bullet::eventHandler(const df::Event* p_e) {
@@ -70,13 +70,18 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 	else if (p_collision_event->getObject2()->getType() == "Wall") {
 		p_o = p_collision_event->getObject2();
 	}
+	else if (p_collision_event->getObject1()->getType() == "Door" || p_collision_event->getObject2()->getType() == "Door") {
+		WM.markForDelete(this);
+		return;
+	}
 	else {
 		return;
 	}
 	Wall* w = dynamic_cast<Wall*>(p_o);
 	if (w->isPortalable()) {
 		LM.writeLog("Hit portal surface!");
-		Portal* p = new Portal(getPosition(), p_hero->getPortal(isBlue), this->isBlue);
+		Vector portal_offset = getVelocity();
+		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue);
 		p_hero->setPortal(p, isBlue);
 	}
 	WM.markForDelete(this);

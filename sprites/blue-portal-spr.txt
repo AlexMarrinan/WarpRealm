@@ -1,28 +1,50 @@
 <HEADER>
-frames 6
-width 3
-height 2
+frames 10
+width 4
+height 3
 color blue
 slowdown 1
 </HEADER>
 <BODY>
-o-\
-\_/
+o--\
+|  |
+\__/
 end
-/o\
-\_/
+/o-\
+|  |
+\__/
 end
-/-o
-\_/
+/-o\
+|  |
+\__/
 end
-/-\
-\_o
+/--o
+|  |
+\__/
 end
-/-\
-\o/
+/--\
+|  o
+\__/
 end
-/-\
-o_/
+/--\
+|  |
+\__o
+end
+/--\
+|  |
+\_o/
+end
+/--\
+|  |
+\o_/
+end
+/--\
+|  |
+o__/
+end
+/--\
+o  |
+\__/
 end
 </BODY>
 <FOOTER>
