@@ -34,6 +34,7 @@ ItemContainer::ItemContainer(ItemType type, df::Vector pos, int id) {
 	this->should_load = true;
 	this->id = id;
 	this->button_id = -1;
+	this->activated = false;
 }
 ItemContainer::ItemContainer(ItemType type, df::Vector pos, int id, int button_id) {
 	this->type = type;
@@ -41,6 +42,7 @@ ItemContainer::ItemContainer(ItemType type, df::Vector pos, int id, int button_i
 	this->should_load = true;
 	this->id = id;
 	this->button_id = button_id;
+	this->activated = false;
 }
 ItemType ItemContainer::getType() const {
 	return type;

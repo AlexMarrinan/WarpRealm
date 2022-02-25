@@ -10,6 +10,7 @@
 #include "Turret.h"
 #include "Button.h"
 #include "Door.h"
+
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
 	//next_id++;
@@ -110,7 +111,7 @@ void Room::loadRoom() {
 				loaded.insert(turret);
 			}
 			else if (ic.getType() == BUTTON) {
-				Button* button = new Button(ic.getPosition(), ic.getId(), ic.getButtonId());
+				Button* button = new Button(ic.getPosition(), ic.getId(), ic.getButtonId(), ic.activated);
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(button);
 			}
@@ -166,9 +167,14 @@ void Room::markItemUnload(int id) {
 	for (int i = 0; i < items.size(); i++) {
 		ItemContainer* ic = items[i];
 		if (ic->getId() == id) {
-			LM.writeLog("found ic %d, marking for unload", ic->getId());
-			ic->should_load = false;
-			LM.writeLog("ic marked %d", ic->shouldLoad());
+			if (ic->getType() == BUTTON) {
+				ic->activated = true;
+			}
+			else {
+				LM.writeLog("found ic %d, marking for unload", ic->getId());
+				ic->should_load = false;
+				LM.writeLog("ic marked %d", ic->shouldLoad());
+			}
 			return;
 		}
 	}

@@ -2,8 +2,9 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "EventButton.h"
+#include "EventUnload.h"
 
-Button::Button(df::Vector positon, int id, int button_id) {
+Button::Button(df::Vector positon, int id, int button_id, bool arrow_pressed) {
 	setSprite("button-off");
 	setType("Button");
 	setPosition(positon);
@@ -15,6 +16,7 @@ Button::Button(df::Vector positon, int id, int button_id) {
 	slowdown = 4;
 	countdown = 0;
 	pressed = false;
+	this->arrow_pressed = arrow_pressed;
 	this->button_id = button_id;
 }
 
@@ -32,7 +34,7 @@ int Button::eventHandler(const df::Event* p_e) {
 				WM.onEvent(&eb);
 			}
 		}
-		if (pressed) {
+		if (pressed || arrow_pressed) {
 			setSprite("button-on");
 		}
 		else {
@@ -48,6 +50,16 @@ int Button::eventHandler(const df::Event* p_e) {
 			countdown = slowdown;
 			EventButton eb(button_id, PRESSED);
 			WM.onEvent(&eb);
+		}
+		else if (p_ec->getObject1()->getType() == "Arrow" ||
+			p_ec->getObject2()->getType() == "Arrow") {
+			pressed = true;
+			arrow_pressed = true;
+			EventButton eb(button_id, ARROW_PRESSED);
+			EventUnload eu(this);
+
+			WM.onEvent(&eb);
+			WM.onEvent(&eu);
 		}
 		return 1;
 	}

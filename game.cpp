@@ -17,6 +17,7 @@
 #include "Room.h"
 #include "Key.h"
 #include "HealthDisplay.h"
+#include "DisplayManager.h"
 
 void loadResources(void) {
     RM.loadSprite("sprites/walls/h_1.txt", WALL_H1_STR);
@@ -72,6 +73,7 @@ void populateWorld() {
     //    new Star;
 
     Hero* hero = new Hero;
+
     /*
     new Wall(H_1, Vector(20, 12));
     new Wall(H_1, Vector(22, 12));
@@ -97,7 +99,13 @@ void populateWorld() {
     Room* r5 = new Room("rooms/05.txt");
     r2->setNextRoom(r5, RoomDirection::LEFT);
     r5->setNextRoom(r2, RoomDirection::RIGHT);
-
+    Room* r6 = new Room("rooms/06.txt");
+    r4->setNextRoom(r6, RoomDirection::UP);
+    r6->setNextRoom(r4, RoomDirection::DOWN);
+    Room* r7 = new Room("rooms/07.txt");
+    r6->setNextRoom(r7, RoomDirection::RIGHT);
+    r7->setNextRoom(r6, RoomDirection::LEFT);
+    
     new Points;
     new HealthDisplay;
     //new Key(Vector(35, 7));

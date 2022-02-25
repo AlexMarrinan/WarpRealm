@@ -3,6 +3,7 @@
 #include "Wall.h"
 #include "LogManager.h"
 #include "WorldManager.h"
+#include "EventUnload.h"
 
 const df::Vector door_offset(0, 100);
 
@@ -38,6 +39,10 @@ int Door::eventHandler(const df::Event* p_e) {
 			else if (eb->value == UNPRESSED) {
 				open = false;
 				setPosition(original_pos);
+			}
+			else if (eb->value == ARROW_PRESSED) {
+				EventUnload eu(this);
+				WM.onEvent(&eu);
 			}
 			return 1;
 		}

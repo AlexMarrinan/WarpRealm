@@ -6,7 +6,7 @@
 
 Turret::Turret(df::Vector position) {
 	h = NULL;
-	shoot_slowdown = 30;
+	shoot_slowdown = 45;
 	shoot_countdown = 0;
 	setSolidness(HARD);
 	setType("Turret");

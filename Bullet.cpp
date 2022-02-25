@@ -81,6 +81,8 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 	if (w->isPortalable()) {
 		LM.writeLog("Hit portal surface!");
 		Vector portal_offset = getVelocity();
+		//portal_offset.normalize();
+		//portal_offset.scale(2);
 		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue);
 		p_hero->setPortal(p, isBlue);
 	}

@@ -108,6 +108,9 @@ int Hero::eventHandler(const df::Event * p_e) {
 		const EventUnload* p_event_unload = (dynamic_cast<const EventUnload*>(p_e));
 		Item* item = p_event_unload->item_to_unload;
 		currentRoom->markItemUnload(item->getId());
+		if (item->getType() == "Button") {
+			return 1;
+		}
 		LM.writeLog("item id: %d", item->getId());
 		WM.markForDelete(item);
 		currentRoom->removeObject(item);
@@ -251,7 +254,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	// Compute normalized vector to position, then scale by speed (1).
 	df::Vector v = target - getPosition();
 	v.normalize();
-	v.scale(3);
+	v.scale(1.5);
 	Bullet* p = new Bullet(this, isBlue);
 	p->setVelocity(v);
 
@@ -302,7 +305,6 @@ void Hero::nuke() {
 int Hero::get_laser_charge() {
 	return abs(laser_countdown - laser_slowdown);
 }
-
 Portal* Hero::getPortal(bool isBlue) const {
 	return isBlue ? blue_portal : red_portal;
 }

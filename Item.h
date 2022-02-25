@@ -30,6 +30,7 @@ private:
 	int id;
 	int button_id;
 public:
+	bool activated;
 	bool should_load;
 	ItemContainer(ItemType type, df::Vector position, int id);
 	ItemContainer(ItemType type, df::Vector position, int id, int button_id);
