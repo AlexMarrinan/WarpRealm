@@ -7,7 +7,7 @@ Arrow::Arrow(df::Vector direction, df::Vector pos) {
 	setDirection(direction);
 	if (getDirection().getX() == 0) {
 		setSprite("arrow-v");
-		setSpeed(0.3);
+		setSpeed(0.4);
 	}
 	else {
 		setSprite("arrow-h");
@@ -24,13 +24,6 @@ int Arrow::eventHandler(const df::Event* p_e) {
 		if (p_ec->getObject1()->getType() == "Turret" || p_ec->getObject2()->getType() == "Turret") {
 			return 1;
 		}
-		/*
-		if (p_ec->getObject1()->getType() == "Button" || p_ec->getObject2()->getType() == "Button") {
-			this->setSpeed(0);
-			this->setSolidness(SPECTRAL);
-			this->unregisterInterest(df::COLLISION_EVENT);
-			return 1;
-		}*/
 		WM.markForDelete(this);
 		return 1;
 	}

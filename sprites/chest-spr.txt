@@ -1,0 +1,17 @@
+<HEADER>
+frames 1
+width 6
+height 4
+color yellow
+slowdown 
+</HEADER>
+<BODY>
+ ____ 
+/____\
+|=OO=|
+|____|
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

@@ -20,13 +20,16 @@
 #include "EventUnload.h"
 #include "Enemy.h"
 #include "HealthDisplay.h"
+#include "Cube.h"
+#include "Sword.h"
 
 #define X_AMOUNT 1
 #define Y_AMOUNT 0.5
 
 Hero::Hero() {
 	// Link to "ship" sprite.
-	setSprite("ship");
+	setSprite("hero-up");
+	direction = RoomDirection::UP;
 
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::STEP_EVENT);
@@ -43,20 +46,22 @@ Hero::Hero() {
 
 	move_slowdown = 1;
 	move_countdown = move_slowdown;
-	fire_slowdown = 15;
+	fire_slowdown = 10;
 	fire_countdown = fire_slowdown;
-	laser_slowdown = 100;
-	laser_countdown = 0;
-	nuke_count = 1;
 	portal_slowdown = 15;
 	portal_cooldown = 0;
-
+	sword_slowdown = 15;
+	sword_cooldown = 0;
 	tempLaserPos1 = df::Vector(-100, -100);
 	tempLaserPos2 = df::Vector(-100, -100);
+
+	hasPortalGun = false;
+	hasSword = false;
 
 	blue_portal = NULL;
 	red_portal = NULL;
 
+	cube_held = NULL;
 }
 
 Hero::~Hero() {
@@ -125,29 +130,47 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 	float x = 0;
 	float y = 0;
 	if (k == df::Keyboard::W) { //up
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
 			y = -Y_AMOUNT;
+			direction = RoomDirection::UP;
+			setSprite("hero-up");
+		}
 	}
 	if (k == df::Keyboard::S) { //down
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+			direction = RoomDirection::DOWN;
+			setSprite("hero-down");
 			y = +Y_AMOUNT;
+		}
 	}
 	if (k == df::Keyboard::A) { //left
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+			direction = RoomDirection::LEFT;
+			setSprite("hero-left");
 			x = -X_AMOUNT;
+		}
 	}
 	if (k == df::Keyboard::D) { //right
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+			direction = RoomDirection::RIGHT;
+			setSprite("hero-right");
 			x = +X_AMOUNT;
+		}
 	}
 	move(x, y);
 	if (k == df::Keyboard::ESCAPE) { //quit
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
 			WM.markForDelete(this);
 	}
-	if (k == df::Keyboard::SPACE) { //space
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
-			nuke();
+	if (k == df::Keyboard::SPACE) { //attack or drop cube
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+			if (cube_held != NULL) {
+				dropCube();
+			}
+			else {
+				attack();
+			}
+		}
 	}
 }
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
@@ -189,11 +212,6 @@ void Hero::step() {
 	fire_countdown--;
 	if (fire_countdown < 0)
 		fire_countdown = 0;
-	// Laser countdown.
-	laser_countdown--;
-	if (laser_countdown < 0) {
-		laser_countdown = 0;
-	}
 	portal_cooldown--;
 	if (portal_cooldown < 0) {
 		if (red_portal != NULL && blue_portal != NULL) {
@@ -202,16 +220,12 @@ void Hero::step() {
 		}
 		portal_cooldown = 0;
 	}
-	df::EventView ev(LASERDISPLAY_STRING, get_laser_charge(), false);
-	WM.onEvent(&ev);
-
+	sword_cooldown--;
+	if (sword_cooldown < 0)
+		sword_cooldown = 0;
 	//STUPID HACKY WAY TO ALLWAYS CHECK COLLISIONS
 	//TODO: maybe make less shit
 	WM.moveObject(this, getPosition());
-	//if laser countdown is in first 10 frames, spawn a new laser projectile
-	if (laser_countdown <= laser_slowdown && laser_countdown >= laser_slowdown - 10) {
-		spawn_laser();
-	}
 }
 void Hero::out() {
 	Room* r;
@@ -243,11 +257,12 @@ void Hero::out() {
 	blue_portal = NULL;
 	WM.markForDelete(red_portal);
 	red_portal = NULL;
+	cube_held = NULL;
 	currentRoom = r;
 	setPosition(v);
 }
 void Hero::fire(df::Vector target, bool isBlue) {
-	if (fire_countdown > 0)
+	if (fire_countdown > 0 || !hasPortalGun)
 		return;
 	fire_countdown = fire_slowdown;
 	// Fire Laser towards target.
@@ -262,48 +277,11 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	df::Sound* p_sound = RM.getSound("fire");
 	p_sound->play();
 }
-void Hero::fire_laser(df::Vector target) {
-	if (laser_countdown > 0)
-		return;
-	laser_countdown = laser_slowdown;
-	// Fire Laser Toward Target
-	// Compute normalized vector to position, then scale by speed (1).
-	df::Vector v = target - getPosition();
-	v.normalize();
-	v.scale(5);
-
-	tempLaserPos1 = getPosition();
-	tempLaserPos2 = v;
-
-	// Play "fire" sound.
-	df::Sound* p_sound = RM.getSound("fire");
-	p_sound->play();
-}
-void Hero::spawn_laser() {
-	Laser* l = new Laser(tempLaserPos1);
-	l->setVelocity(tempLaserPos2);
-}
-void Hero::nuke() {
-	// Check if nukes left.
-	if (!nuke_count)
-		return;
-	nuke_count--;
-	// Create "nuke" event and send to interested Objects.
-	EventNuke nuke;
-	WM.onEvent(&nuke);
-	// Send "view" event with nukes to interested ViewObjects.
-	df::EventView ev("Nukes", -1, true);
-	WM.onEvent(&ev);
-
-	//Shake the screen
-	DM.shake(10, 10, 5);
-
-	// Play "nuke" sound.
-	df::Sound* p_sound = RM.getSound("nuke");
-	p_sound->play();
-}
-int Hero::get_laser_charge() {
-	return abs(laser_countdown - laser_slowdown);
+void Hero::attack() {
+	if (sword_cooldown == 0 && hasSword) {
+		sword_cooldown = sword_slowdown;
+		new Sword(this, this->direction);
+	}
 }
 Portal* Hero::getPortal(bool isBlue) const {
 	return isBlue ? blue_portal : red_portal;
@@ -326,15 +304,31 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 		LM.writeLog("hitting portal");
 		usePortal(dynamic_cast<Portal*>(p_ec->getObject2()));
 	}
-	else if (p_ec->getObject1()->getType() == "Enemy") {
+	else if (p_ec->getObject1()->getType() == "PowerUp") {
+		getPowerUp(dynamic_cast<PowerUp*>(p_ec->getObject1())->type);
+	}
+	else if (p_ec->getObject2()->getType() == "PowerUp") {
+		getPowerUp(dynamic_cast<PowerUp*>(p_ec->getObject2())->type);
+	}
+	else if (p_ec->getObject1()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) {
 		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
 		df::EventView ev(HEALTH_STRING, -e->getDamage() , true);
 		WM.onEvent(&ev);
 	}
-	else if (p_ec->getObject2()->getType() == "Enemy") {
+	else if (p_ec->getObject2()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) {
 		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
 		df::EventView ev(HEALTH_STRING, -e->getDamage(), true);
 		WM.onEvent(&ev);
+	}
+	else if (p_ec->getObject1()->getType() == "Cube") {
+		Cube* c = dynamic_cast<Cube*>(p_ec->getObject1());
+		cube_held = c;
+		c->pickUp(this);
+	}
+	else if (p_ec->getObject2()->getType() == "Cube") {
+		Cube* c = dynamic_cast<Cube*>(p_ec->getObject2());
+		cube_held = c;
+		c->pickUp(this);
 	}
 	return;
 }
@@ -373,4 +367,35 @@ bool Hero::intersectsObject(Object* obj) {
 	bool y_overlap = (By1 <= Ay1 && Ay1 <= By2) || (Ay1 <= By1 && By1 <= Ay2);
 
 	return (x_overlap && y_overlap);
+}
+
+void Hero::getPowerUp(PowerUpType type) {
+	switch (type) {
+	case PORTALS:
+		hasPortalGun = true;
+		break;
+	case SWORD:
+		hasSword = true;
+		break;
+	}
+}
+
+void Hero::dropCube() {
+	df::Vector offset;
+	switch (this->direction) {
+	case RoomDirection::UP:
+		offset = Vector(0, -2.5);
+		break;
+	case RoomDirection::DOWN:
+		offset = Vector(0, 2.5);
+		break;
+	case RoomDirection::LEFT:
+		offset = Vector(-4, 0);
+		break;
+	case RoomDirection::RIGHT:
+		offset = Vector(4, 0);
+		break;
+	}
+	cube_held->drop(getPosition() + offset);
+	cube_held = NULL;
 }

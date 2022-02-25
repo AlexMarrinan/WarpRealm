@@ -4,6 +4,8 @@
 #include "Reticle.h"
 #include "EventMouse.h"
 #include "Room.h"
+#include "Cube.h"
+#include "PowerUp.h"
 
 class Hero : public df::Object {
 
@@ -12,19 +14,22 @@ private:
     df::Vector tempLaserPos1;
     df::Vector tempLaserPos2;
 
-    Portal* blue_portal;
-    Portal* red_portal;
-
     int move_slowdown;
     int move_countdown;
     int fire_slowdown;
     int fire_countdown;
-    int laser_slowdown;
-    int laser_countdown;
-    int nuke_count;
     int portal_slowdown;
     int portal_cooldown;
+    int sword_slowdown;
+    int sword_cooldown;
+    
+    bool hasPortalGun;
+    bool hasSword;
 
+    Portal* blue_portal;
+    Portal* red_portal;
+    Cube* cube_held;
+    RoomDirection direction;
 
     void kbd(const df::EventKeyboard* p_keyboard_event);
     void mouse(const df::EventMouse* p_mouse_event);
@@ -36,14 +41,13 @@ public:
     int eventHandler(const df::Event* p_e) override;
     void step();
     void fire(df::Vector target, bool isBlue = true);
-    void fire_laser(df::Vector target);
-    void spawn_laser();
-    int get_laser_charge();
-    void nuke();
+    void attack();
     void out();
     Portal* getPortal(bool isBlue = true) const;
     void setPortal(Portal* p, bool isBlue = true);
     void handleCollisions(const EventCollision* p_ec);
     void usePortal(Portal* p);
     bool intersectsObject(Object* i);
+    void getPowerUp(PowerUpType type);
+    void dropCube();
 };

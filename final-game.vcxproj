@@ -158,6 +158,8 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="BigSaucer.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Chest.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EventButton.cpp" />
@@ -177,11 +179,13 @@
     <ClCompile Include="LockedDoor.cpp" />
     <ClCompile Include="Points.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Star.cpp" />
+    <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
@@ -190,6 +194,8 @@
     <ClInclude Include="BigSaucer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Chest.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EventButton.h" />
@@ -209,10 +215,12 @@
     <ClInclude Include="LockedDoor.h" />
     <ClInclude Include="Points.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Reticle.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Saucer.h" />
     <ClInclude Include="Star.h" />
+    <ClInclude Include="Sword.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

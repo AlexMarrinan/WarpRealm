@@ -10,7 +10,9 @@
 #include "Turret.h"
 #include "Button.h"
 #include "Door.h"
-
+#include "Cube.h"
+#include "Chest.h"
+#include "PowerUp.h"
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
 	//next_id++;
@@ -78,6 +80,22 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(DOOR, Vector(k * 2 + 4, i * 1.95 + 1), item_id, 0));
 				item_id++;
 			}
+			else if (c == CUBE_TILE) {
+				items.push_back(new ItemContainer(CUBE, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
+			else if (c == CHEST_TILE) {
+				items.push_back(new ItemContainer(CHEST, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
+			else if (c == PORTALS_PU_TILE) {
+				items.push_back(new ItemContainer(POWERUP, Vector(k * 2 + 4, i * 1.95 + 1), item_id, PORTALS));
+				item_id++;
+			}
+			else if (c == SWORD_PU_TILE) {
+				items.push_back(new ItemContainer(POWERUP, Vector(k * 2 + 4, i * 1.95 + 1), item_id, SWORD));
+				item_id++;
+			}
 			else if (c == FLOOR_TILE) {
 				//Dont make any walls
 			}
@@ -119,6 +137,21 @@ void Room::loadRoom() {
 				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId());
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
+			}
+			else if (ic.getType() == CUBE) {
+				Cube* cube = new Cube(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(cube);
+			}
+			else if (ic.getType() == CHEST) {
+				Chest* chest = new Chest(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(chest);
+			}
+			else if (ic.getType() == POWERUP) {
+				PowerUp* pu = new PowerUp(ic.getPosition(), ic.getId(), ic.getPowerUpType());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(pu);
 			}
 		}
 	}

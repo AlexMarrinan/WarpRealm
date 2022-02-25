@@ -36,13 +36,25 @@ void loadResources(void) {
     RM.loadSprite("sprites/red-portal-spr.txt", "red-portal");
     RM.loadSprite("sprites/bullet-spr.txt", "bullet");
     RM.loadSprite("sprites/red-bullet-spr.txt", "red-bullet");
-    RM.loadSprite("sprites/ship-spr.txt", "ship");
+    RM.loadSprite("sprites/chest-spr.txt", "chest");
+
+    RM.loadSprite("sprites/hero-up-spr.txt", "hero-up");
+    RM.loadSprite("sprites/hero-down-spr.txt", "hero-down");
+    RM.loadSprite("sprites/hero-left-spr.txt", "hero-left");
+    RM.loadSprite("sprites/hero-right-spr.txt", "hero-right");
+
     RM.loadSprite("sprites/key-spr.txt", "key");
     RM.loadSprite("sprites/turret-spr.txt", "turret");
     RM.loadSprite("sprites/arrow-h-spr.txt", "arrow-h");
     RM.loadSprite("sprites/arrow-v-spr.txt", "arrow-v");
     RM.loadSprite("sprites/button-on-spr.txt", "button-on");
     RM.loadSprite("sprites/button-off-spr.txt", "button-off");
+    RM.loadSprite("sprites/cube-spr.txt", "cube");
+
+    RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");
+    RM.loadSprite("sprites/pu-sword-spr.txt", "pu-sword");
+
+
     RM.loadSprite("sprites/empty-spr.txt", "empty");
     
     //OLD
@@ -106,9 +118,18 @@ void populateWorld() {
     Room* r7 = new Room("rooms/07.txt");
     r6->setNextRoom(r7, RoomDirection::RIGHT);
     r7->setNextRoom(r6, RoomDirection::LEFT);
-    
+    Room* r8 = new Room("rooms/08.txt");
+    r7->setNextRoom(r8, RoomDirection::DOWN);
+    r8->setNextRoom(r7, RoomDirection::UP);
+    Room* r9 = new Room("rooms/09.txt");
+    r8->setNextRoom(r9, RoomDirection::DOWN);
+    r9->setNextRoom(r8, RoomDirection::UP);
+    r0->setNextRoom(r9, RoomDirection::RIGHT);
+    r9->setNextRoom(r0, RoomDirection::LEFT);
+
     new Points;
     new HealthDisplay;
+
     //new Key(Vector(35, 7));
 }
 //spawns regular saucers 95% and big saucers 5%

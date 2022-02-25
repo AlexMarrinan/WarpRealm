@@ -8,8 +8,17 @@ enum ItemType {
 	TURRET,
 	BUTTON,
 	DOOR,
+	CUBE,
+	CHEST,
+	POWERUP,
 };
-
+enum PowerUpType {
+	UNDEFINED = -1,
+	PORTALS = 0,
+	SWORD,
+	HEART,
+	SECRET
+};
 class Item : public df::Object
 {
 private:
@@ -29,11 +38,13 @@ private:
 	df::Vector position;
 	int id;
 	int button_id;
+	PowerUpType powerup_type;
 public:
 	bool activated;
 	bool should_load;
 	ItemContainer(ItemType type, df::Vector position, int id);
 	ItemContainer(ItemType type, df::Vector position, int id, int button_id);
+	ItemContainer(ItemType type, df::Vector position, int id, PowerUpType powerup_type);
 
 	ItemType getType() const;
 	df::Vector getPosition() const;
@@ -41,6 +52,7 @@ public:
 	bool shouldLoad() const;
 	int getId() const;
 	int getButtonId() const;
+	PowerUpType getPowerUpType() const;
 };
 
 
