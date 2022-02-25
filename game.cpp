@@ -44,6 +44,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/button-on-spr.txt", "button-on");
     RM.loadSprite("sprites/button-off-spr.txt", "button-off");
     RM.loadSprite("sprites/empty-spr.txt", "empty");
+    
     //OLD
    // RM.loadSprite("sprites/saucer-spr.txt", "saucer");
 
