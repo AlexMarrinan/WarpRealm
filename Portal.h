@@ -1,19 +1,24 @@
 #pragma once
 #include "Object.h"
 #include "Vector.h"
-#include "Room.h"
 
+enum PortalDirection {
+	U = 1,
+	D = 2,
+	L,
+	R,
+};
 class Portal: public df::Object
 {
 private:
 	bool isBlue; //true if blue, false if red?
 	Portal* other_portal;
-	RoomDirection direction;
+	PortalDirection direction;
 public:
-	Portal(df::Vector postion, Portal* old_portal, bool blue, RoomDirection new_direction);
+	Portal(df::Vector postion, Portal* old_portal, bool blue, PortalDirection new_direction);
 	bool isBluePortal() const;
 	void setOtherPortal(Portal* op);
 	Portal* getOtherPortal() const;
-	RoomDirection getDirection() const;
+	PortalDirection getDirection() const;
 }; 
 

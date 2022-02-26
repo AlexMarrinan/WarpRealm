@@ -2,7 +2,7 @@
 #include "WorldManager.h"
 #include "LogManager.h"
 
-Portal::Portal(df::Vector pos, Portal* old_portal, bool blue, RoomDirection new_direction) {
+Portal::Portal(df::Vector pos, Portal* old_portal, bool blue, PortalDirection new_direction) {
 	other_portal = NULL;
 	direction = new_direction;
 	setSolidness(df::Solidness::HARD);
@@ -35,7 +35,7 @@ Portal* Portal::getOtherPortal() const
 	return other_portal;
 }
 
-RoomDirection Portal::getDirection() const
+PortalDirection Portal::getDirection() const
 {
 	return direction;
 }

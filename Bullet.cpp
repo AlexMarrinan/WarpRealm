@@ -82,23 +82,23 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 	if (w->isPortalable()) {
 		LM.writeLog("Hit portal surface!");
 		Vector portal_offset = getVelocity();
-		RoomDirection WD;
+		PortalDirection WD;
 		//portal_offset.normalize();
 		//portal_offset.scale(2);
 		if (wt == H_1) {
 			if (this->getPosition().getY() > w->getPosition().getY()) {
-				WD = RoomDirection::UP;
+				WD = PortalDirection::U;
 			}
 			else {
-				WD = RoomDirection::DOWN;
+				WD = PortalDirection::D;
 			}
 		}
 		if (wt == V_1) {
 			if (this->getPosition().getX() > w->getPosition().getX()) {
-				WD = RoomDirection::RIGHT;
+				WD = PortalDirection::R;
 			}
 			else {
-				WD = RoomDirection::LEFT;
+				WD = PortalDirection::L;
 			}
 		}
 		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue, WD);
