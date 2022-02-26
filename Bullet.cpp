@@ -78,13 +78,35 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 		return;
 	}
 	Wall* w = dynamic_cast<Wall*>(p_o);
+	WallType wt = w->getWallType();
 	if (w->isPortalable()) {
 		LM.writeLog("Hit portal surface!");
 		Vector portal_offset = getVelocity();
+		RoomDirection WD;
 		//portal_offset.normalize();
 		//portal_offset.scale(2);
-		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue);
+		if (wt == H_1) {
+			if (this->getPosition().getY() > w->getPosition().getY()) {
+				WD = RoomDirection::UP;
+			}
+			else {
+				WD = RoomDirection::DOWN;
+			}
+		}
+		if (wt == V_1) {
+			if (this->getPosition().getX() > w->getPosition().getX()) {
+				WD = RoomDirection::RIGHT;
+			}
+			else {
+				WD = RoomDirection::LEFT;
+			}
+		}
+		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue, WD);
 		p_hero->setPortal(p, isBlue);
+		p->setOtherPortal(p_hero->getPortal(!isBlue));
+		if (p_hero->getPortal(!isBlue) != NULL) {
+			p_hero->getPortal(!isBlue)->setOtherPortal(p);
+		}
 	}
 	WM.markForDelete(this);
 }
