@@ -7,12 +7,17 @@
 
 const df::Vector door_offset(0, 100);
 
-Door::Door(df::Vector positon, int id, int button_id) {
+Door::Door(df::Vector positon, int id, int button_id, int orientation) {
 	setPosition(positon);
 	original_pos = positon;
 	setType("Door");
 	setId(id);
-	setSprite(WALL_DV_STR);
+	if (orientation == HORIZONTAL) {
+		setSprite(WALL_DH_STR);
+	}
+	else if (orientation == VERTICAL) {
+		setSprite(WALL_DV_STR);
+	}
 	this->button_id = button_id;
 	registerInterest(BUTTON_EVENT);
 	open = false;

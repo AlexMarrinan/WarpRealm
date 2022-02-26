@@ -61,6 +61,9 @@ ItemType ItemContainer::getType() const {
 df::Vector ItemContainer::getPosition() const {
 	return position;
 }
+void ItemContainer::setPosition(df::Vector new_pos) {
+	position = new_pos;
+}
 bool ItemContainer::shouldLoad() const {
 	return should_load;
 }

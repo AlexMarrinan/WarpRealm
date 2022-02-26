@@ -13,12 +13,15 @@
 #include "Cube.h"
 #include "Chest.h"
 #include "PowerUp.h"
+#include "EventButton.h"
+
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
 	//next_id++;
 	this->filename = filename;
 	loadWalls(filename);
 }
+
 void Room::loadWalls(std::string filename) {
 	std::ifstream inputMap(filename);
 	//std::string str((std::istreambuf_iterator<char>(inputMap)),
@@ -72,12 +75,33 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(TURRET, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
 				item_id++;
 			}
-			else if (c == BUTTON_TILE_1) {
-				items.push_back(new ItemContainer(BUTTON, Vector(k * 2 + 4, i * 1.95 + 1), item_id, 0));
+			else if (c == BUTTON_TILE) {
+				char cn = arr[i][k + 1];
+				int n = 'a' - cn;
+				if (!(n >= '0' && n <= '9')) {
+					int n = 0;
+				}
+				items.push_back(new ItemContainer(BUTTON, Vector(k * 2 + 4, i * 1.95 + 1), item_id, n));
 				item_id++;
 			}
-			else if (c == DOOR_TILE_1) {
-				items.push_back(new ItemContainer(DOOR, Vector(k * 2 + 4, i * 1.95 + 1), item_id, 0));
+			else if (c == DOOR_TILE_V) {
+				char cn = arr[i][k + 1];
+				int n = 'a' - cn;
+				if (!(n >= '0' && n <= '9')) {
+					int n = 0;
+					k++;
+				}
+				items.push_back(new ItemContainer(DOOR_V, Vector(k * 2 + 4, i * 1.95 + 1), item_id, n));
+				item_id++;
+			}
+			else if (c == DOOR_TILE_H) {
+				char cn = arr[i][k + 1];
+				int n = 'a' - cn;
+				if (!(n >= '0' && n <= '9')) {
+					int n = 0;
+					k++;
+				}
+				items.push_back(new ItemContainer(DOOR_H, Vector(k * 2 + 4, i * 1.95 + 1), item_id, n));
 				item_id++;
 			}
 			else if (c == CUBE_TILE) {
@@ -133,8 +157,13 @@ void Room::loadRoom() {
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(button);
 			}
-			else if (ic.getType() == DOOR) {
-				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId());
+			else if (ic.getType() == DOOR_H) {
+				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId(), HORIZONTAL);
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(door);
+			}
+			else if (ic.getType() == DOOR_V) {
+				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId(), VERTICAL);
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}
@@ -159,6 +188,9 @@ void Room::loadRoom() {
 void Room::unloadRoom() {
 	WM.markForDelete(loaded);
 	loaded.clear();
+	//KNOWN ISSUE: 
+	//When loading into a room with a door with the same id as a button being pressed in the previous room, the new door
+	//starts open, avoid this issue by using different button ids on doors with rooms next to each other
 }
 int Room::getId() const {
 	return id;
@@ -211,5 +243,14 @@ void Room::markItemUnload(int id) {
 			return;
 		}
 	}
+}
+
+ItemContainer* Room::getItemContainer(int id) {
+	for (int i = 0; i < items.size(); i++) {
+		if (items[i]->getId() == id) {
+			return items[i];
+		}
+	}
+	return NULL;
 }
 

@@ -2,6 +2,10 @@
 #include "Item.h"
 #include "Button.h"
 
+
+#define HORIZONTAL 1
+#define VERTICAL 2
+
 class Door : public Item
 {
 private:
@@ -9,7 +13,7 @@ private:
 	df::Vector original_pos;
 public:
 	bool open;
-	Door(df::Vector positon, int id, int button_id);
+	Door(df::Vector positon, int id, int button_id, int orientation);
 	void getItem();
 	int eventHandler(const df::Event* p_e) override;
 };

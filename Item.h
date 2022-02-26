@@ -7,7 +7,8 @@ enum ItemType {
 	LOCKED_DOOR = 1,
 	TURRET,
 	BUTTON,
-	DOOR,
+	DOOR_H,
+	DOOR_V,
 	CUBE,
 	CHEST,
 	POWERUP,
@@ -48,6 +49,7 @@ public:
 
 	ItemType getType() const;
 	df::Vector getPosition() const;
+	void setPosition(df::Vector new_pos);
 	void setLoad(bool new_load = false);
 	bool shouldLoad() const;
 	int getId() const;

@@ -26,7 +26,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/walls/water.txt", WALL_WATER_STR);
     RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DLH_STR);
     RM.loadSprite("sprites/walls/door_v.txt", WALL_DV_STR);
-    RM.loadSprite("sprites/walls/door_v_open.txt", WALL_DVO_STR);
+    RM.loadSprite("sprites/walls/door_h.txt", WALL_DH_STR);
 
     RM.loadSprite("sprites/walls/h_1_p.txt", WALL_H1_STR_P);
     RM.loadSprite("sprites/walls/v_1_p.txt", WALL_V1_STR_P);

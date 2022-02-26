@@ -160,7 +160,8 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 	move(x, y);
 	if (k == df::Keyboard::ESCAPE) { //quit
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
-			WM.markForDelete(this);
+			GM.setGameOver();
+			//WM.markForDelete(this);
 	}
 	if (k == df::Keyboard::SPACE) { //attack or drop cube
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
@@ -396,6 +397,9 @@ void Hero::dropCube() {
 		offset = Vector(4, 0);
 		break;
 	}
+	
 	cube_held->drop(getPosition() + offset);
+	ItemContainer* ic = currentRoom->getItemContainer(cube_held->getId());
+	ic->setPosition(cube_held->getPosition());
 	cube_held = NULL;
 }

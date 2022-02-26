@@ -17,11 +17,12 @@
 #define FLOOR_TILE '_'
 #define WATER_TILE 'W'
 #define KEY_TILE 'K'
-#define DOOR_TILE_1 'D'
-#define DOOR_TILE_2 "d"
-#define BUTTON_TILE_1 'B'
-#define BUTTON_TILE_2 'b'
+
+#define DOOR_TILE_V 'D'
+#define DOOR_TILE_H 'd'
+#define BUTTON_TILE 'B'
 #define LOCKEDDOOR_TILE 'L'
+
 #define TURRET_TILE 'T'
 #define CUBE_TILE 'C'
 #define CHEST_TILE 'c'
@@ -63,5 +64,7 @@ public:
 	Room* getNextRoom(RoomDirection direction);
 	void removeObject(Object* p_o);
 	void markItemUnload(int id);
+	ItemContainer* getItemContainer(int id);
+
 };
 
