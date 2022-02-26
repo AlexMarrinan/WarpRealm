@@ -38,6 +38,11 @@ void Wall::setWallType(WallType type) {
 		setType("Water");
 		setSprite(WALL_WATER_STR);
 		break;
+	case FIZZLER:
+		setType("Fizzler");
+		setSolidness(SOFT);
+		setSprite(WALL_FIZZLER_STR);
+		break;
 	}
 }
 WallType Wall::getWallType() const {

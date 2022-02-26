@@ -331,6 +331,14 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 		cube_held = c;
 		c->pickUp(this);
 	}
+	else if (p_ec->getObject1()->getType() == "Fizzler" || p_ec->getObject2()->getType() == "Fizzler") {
+		LM.writeLog("Hitting fizzler wall");
+		WM.markForDelete(red_portal);
+		red_portal = NULL;
+		WM.markForDelete(blue_portal);
+		blue_portal = NULL;
+		return;
+	}
 	return;
 }
 

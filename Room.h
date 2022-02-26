@@ -16,6 +16,7 @@
 #define PORTAL_TILE 'P'
 #define FLOOR_TILE '_'
 #define WATER_TILE 'W'
+#define FIZZLER_TILE 'F'
 #define KEY_TILE 'K'
 
 #define DOOR_TILE_V 'D'

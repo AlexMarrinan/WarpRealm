@@ -1,0 +1,45 @@
+<HEADER>
+frames 11
+width 6
+height 2
+color cyan
+slowdown 2
+</HEADER>
+<BODY>
+~-~~-~
+~~-~-~
+end
+~~-~~~
+~~~~~~
+end
+~~--~~
+-~~~~-
+end
+~-~~-~
+~--~~~
+end
+-~~~~-
+~~--~~
+end
+----~~
+~~---~
+end
+~~-~~~
+-~~--~
+end
+~~-~-~
+-~~~~-
+end
+~~~--~
+~-~~~~
+end
+~~~~--
+~~-~~~
+end
+-~~~~-
+~~~-~~
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

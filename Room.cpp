@@ -63,6 +63,9 @@ void Room::loadWalls(std::string filename) {
 			else if (c == WATER_TILE){
 				walls.push_back(new WallContainer(WATER, Vector(k *2+4, i*1.95+1), false));
 			}
+			else if (c == FIZZLER_TILE) {
+				walls.push_back(new WallContainer(FIZZLER, Vector(k * 2 + 4, i * 1.95 + 1), false));
+			}
 			else if (c == KEY_TILE) {
 				items.push_back(new ItemContainer(KEY, Vector(k * 2 + 4, i * 1.95 +1), item_id));
 				item_id++;
