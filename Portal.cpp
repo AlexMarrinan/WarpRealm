@@ -1,6 +1,7 @@
 #include "Portal.h"
 #include "WorldManager.h"
 #include "LogManager.h"
+#include "ResourceManager.h"
 
 Portal::Portal(df::Vector pos, Portal* old_portal, bool blue, PortalDirection new_direction) {
 	other_portal = NULL;
@@ -17,6 +18,8 @@ Portal::Portal(df::Vector pos, Portal* old_portal, bool blue, PortalDirection ne
 	else {
 		setSprite("red-portal");
 	}
+	df::Sound* p_sound = RM.getSound("blue-portal-open");
+	p_sound->play();
 	if (old_portal != NULL) {
 		WM.markForDelete(old_portal);
 	}

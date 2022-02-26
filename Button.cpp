@@ -47,7 +47,9 @@ int Button::eventHandler(const df::Event* p_e) {
 		if (p_ec->getObject1()->getType() == "Hero" ||
 			p_ec->getObject2()->getType() == "Hero" ||
 			p_ec->getObject1()->getType() == "Cube" ||
-			p_ec->getObject2()->getType() == "Cube") {
+			p_ec->getObject2()->getType() == "Cube" ||
+			p_ec->getObject1()->getType() == "Enemy" ||
+			p_ec->getObject2()->getType() == "Enemy") {
 			pressed = true;
 			countdown = slowdown;
 			EventButton eb(button_id, PRESSED);

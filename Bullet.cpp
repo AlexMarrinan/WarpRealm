@@ -27,7 +27,6 @@ Bullet::Bullet(Hero* hero, bool isBlue) {
 	else {
 		setSprite("red-bullet");
 	}
-
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::STEP_EVENT);
 
@@ -85,31 +84,35 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 	WallType wt = w->getWallType();
 	if (w->isPortalable()) {
 		LM.writeLog("Hit portal surface!");
-		Vector portal_offset = getVelocity();
+		Vector offset;
 		PortalDirection WD;
 		//portal_offset.normalize();
 		//portal_offset.scale(2);
 		if (wt == H_1) {
 			if (this->getPosition().getY() > w->getPosition().getY()) {
 				WD = PortalDirection::U;
+				offset.setXY(0, 2);
 			}
 			else {
 				WD = PortalDirection::D;
+				offset.setXY(0, -2);
 			}
 		}
 		else if (wt == V_1) {
 			if (this->getPosition().getX() > w->getPosition().getX()) {
 				WD = PortalDirection::R;
+				offset.setXY(4, 0);
 			}
 			else {
 				WD = PortalDirection::L;
+				offset.setXY(-4, 0);
 			}
 		}
 		else {
 			WM.markForDelete(this);
 			return;
 		}
-		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue, WD);
+		Portal* p = new Portal(w->getPosition()+offset, p_hero->getPortal(isBlue), this->isBlue, WD);
 		p_hero->setPortal(p, isBlue);
 		p->setOtherPortal(p_hero->getPortal(!isBlue));
 		if (p_hero->getPortal(!isBlue) != NULL) {

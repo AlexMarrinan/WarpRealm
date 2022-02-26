@@ -29,17 +29,17 @@ private:
     bool hasPortalGun;
     bool hasSword;
     bool dead;
-
+    
     Portal* blue_portal;
     Portal* red_portal;
     Cube* cube_held;
     RoomDirection direction;
-
     void kbd(const df::EventKeyboard* p_keyboard_event);
     void mouse(const df::EventMouse* p_mouse_event);
     void move(float dx, float dy);
 public:
     Room* currentRoom;
+    Room* startingRoom;
     Hero();
     ~Hero();
     int eventHandler(const df::Event* p_e) override;

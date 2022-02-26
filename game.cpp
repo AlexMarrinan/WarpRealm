@@ -78,6 +78,9 @@ void loadResources(void) {
     RM.loadSound("sounds/nuke.wav", "nuke");
     RM.loadSound("sounds/game-over.wav", "game over");
 
+    RM.loadSound("sounds/blue-portal-open.wav", "blue-portal-open");
+    RM.loadSound("sounds/blue-portal-shoot.wav", "blue-portal-shoot");
+
     RM.loadMusic("sounds/start-music.wav", "start music");
 }
 
@@ -100,6 +103,7 @@ void populateWorld() {
     Room* r0 = new Room("rooms/00.txt");
     r0->loadRoom();
     hero->currentRoom = r0;
+    hero->startingRoom = r0;
     Room* r1 = new Room("rooms/01.txt");
     r0->setNextRoom(r1, RoomDirection::UP);
     r1->setNextRoom(r0, RoomDirection::DOWN);

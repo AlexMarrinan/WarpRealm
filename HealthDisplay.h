@@ -5,7 +5,7 @@
 #include "EventStep.h"
 
 #define HEALTH_STRING "Health"
-#define MAX_HEALTH 10
+#define MAX_HEALTH 20
 
 class HealthDisplay : public df::ViewObject {
 

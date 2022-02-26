@@ -180,6 +180,22 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 			GM.setGameOver();
 			//WM.markForDelete(this);
 	}
+	if (k == df::Keyboard::U) { //restart
+		currentRoom->unloadRoom();
+		if (red_portal != NULL) {
+			WM.markForDelete(red_portal);
+			red_portal = NULL;
+		}
+		if (blue_portal != NULL) {
+			WM.markForDelete(blue_portal);
+			blue_portal = NULL;
+		}
+		currentRoom = NULL;
+		currentRoom = startingRoom;
+		currentRoom->loadRoom();
+		df::Vector p(10, WM.getBoundary().getVertical() / 2 + 2);
+		setPosition(p);
+	}
 	if (k == df::Keyboard::SPACE) { //attack or drop cube
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 			if (cube_held != NULL) {
@@ -295,7 +311,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	p->setVelocity(v);
 
 	// Play "fire" sound.
-	df::Sound* p_sound = RM.getSound("fire");
+	df::Sound* p_sound = RM.getSound("blue-portal-shoot");
 	p_sound->play();
 }
 void Hero::attack() {

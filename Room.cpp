@@ -191,7 +191,7 @@ void Room::loadRoom() {
 				loaded.insert(pu);
 			}
 			else if (ic.getType() == MONSTER) {
-				Monster* monster = new Monster(ic.getPosition(), ic.getId());
+				Monster* monster = new Monster(ic.getPosition(), Vector(0,0), ic.getId());
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(monster);
 			}
