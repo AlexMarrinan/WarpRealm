@@ -74,6 +74,10 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 		WM.markForDelete(this);
 		return;
 	}
+	else if (p_collision_event->getObject1()->getType() == "Fizzler" || p_collision_event->getObject2()->getType() == "Fizzler") {
+		WM.markForDelete(this);
+		return;
+	}
 	else {
 		return;
 	}

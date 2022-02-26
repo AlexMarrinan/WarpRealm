@@ -14,6 +14,7 @@
 #include "Chest.h"
 #include "PowerUp.h"
 #include "EventButton.h"
+#include "Monster.h"
 
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
@@ -123,6 +124,10 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(POWERUP, Vector(k * 2 + 4, i * 1.95 + 1), item_id, SWORD));
 				item_id++;
 			}
+			else if (c == MONSTER_TILE) {
+				items.push_back(new ItemContainer(MONSTER, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
 			else if (c == FLOOR_TILE) {
 				//Dont make any walls
 			}
@@ -184,6 +189,11 @@ void Room::loadRoom() {
 				PowerUp* pu = new PowerUp(ic.getPosition(), ic.getId(), ic.getPowerUpType());
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(pu);
+			}
+			else if (ic.getType() == MONSTER) {
+				Monster* monster = new Monster(ic.getPosition(), ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(monster);
 			}
 		}
 	}

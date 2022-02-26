@@ -1,0 +1,28 @@
+<HEADER>
+frames 4
+width 4
+height 3
+color yellow
+slowdown 5
+</HEADER>
+<BODY>
+/--\
+|OO>
+\__/
+end
+/--\
+|OO|
+\VV/
+end
+/--\
+<OO|
+\__/
+end
+/^^\
+|OO|
+\__/
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

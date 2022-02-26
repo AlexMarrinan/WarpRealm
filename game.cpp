@@ -43,6 +43,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/hero-down-spr.txt", "hero-down");
     RM.loadSprite("sprites/hero-left-spr.txt", "hero-left");
     RM.loadSprite("sprites/hero-right-spr.txt", "hero-right");
+    RM.loadSprite("sprites/hero-dead-spr.txt", "hero-dead");
 
     RM.loadSprite("sprites/key-spr.txt", "key");
     RM.loadSprite("sprites/turret-spr.txt", "turret");
@@ -51,6 +52,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/button-on-spr.txt", "button-on");
     RM.loadSprite("sprites/button-off-spr.txt", "button-off");
     RM.loadSprite("sprites/cube-spr.txt", "cube");
+    RM.loadSprite("sprites/monster-spr.txt", "monster");
 
     RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");
     RM.loadSprite("sprites/pu-sword-spr.txt", "pu-sword");

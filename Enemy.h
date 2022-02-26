@@ -1,11 +1,13 @@
 #pragma once
-#include "Object.h"
+#include "Item.h"
 
-class Enemy : public df::Object
+class Enemy : public Item
 {
 private:
 	int health;
 	int damage;
+	int damage_cooldown;
+	int damage_slowdown;
 public:
 	Enemy();
 	int getHealth() const;

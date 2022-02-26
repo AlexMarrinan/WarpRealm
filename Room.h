@@ -30,6 +30,7 @@
 #define PORTALS_PU_TILE 'G'
 #define SWORD_PU_TILE 'S'
 
+#define MONSTER_TILE 'M'
 
 #define W_WALL_COLOR GREEN
 #define W_PORTAL_COLOR WHITE

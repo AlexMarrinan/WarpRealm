@@ -41,6 +41,7 @@ void Wall::setWallType(WallType type) {
 	case FIZZLER:
 		setType("Fizzler");
 		setSolidness(SOFT);
+		setAltitude(0);
 		setSprite(WALL_FIZZLER_STR);
 		break;
 	}

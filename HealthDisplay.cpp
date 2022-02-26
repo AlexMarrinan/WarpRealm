@@ -1,4 +1,6 @@
 #include "HealthDisplay.h"
+#include "WorldManager.h"
+#include "EventDeath.h"
 
 int HealthDisplay::hp;
 
@@ -23,8 +25,14 @@ int HealthDisplay::eventHandler(const df::Event* p_e) {
 			->getStepCount() % 30 == 0)
 			setValue(getValue() + 1);*/
 		hp = this->getValue();
+		if (this->getValue() <= 0) {
+			EventDeath ed;
+			WM.onEvent(&ed);
+			WM.markForDelete(this);
+		}
 		return 1;
 	}
+
 	// If get here, have ignored this event.
 	return 0;
 }

@@ -22,6 +22,7 @@
 #include "HealthDisplay.h"
 #include "Cube.h"
 #include "Sword.h"
+#include "EventDeath.h"
 
 #define X_AMOUNT 1
 #define Y_AMOUNT 0.5
@@ -35,6 +36,7 @@ Hero::Hero() {
 	registerInterest(df::STEP_EVENT);
 	registerInterest(df::MSE_EVENT);
 	registerInterest(UNLOAD_EVENT);
+	registerInterest(DEATH_EVENT);
 
 	setType("Hero");
 	df::Vector p(10, WM.getBoundary().getVertical() / 2 + 2);
@@ -52,15 +54,15 @@ Hero::Hero() {
 	portal_cooldown = 0;
 	sword_slowdown = 15;
 	sword_cooldown = 0;
-	tempLaserPos1 = df::Vector(-100, -100);
-	tempLaserPos2 = df::Vector(-100, -100);
-
+	damage_slowdown = 15;
+	damage_cooldown = 0;
+	//death_cooldown = 30;
 	hasPortalGun = false;
 	hasSword = false;
+	dead = false;
 
 	blue_portal = NULL;
 	red_portal = NULL;
-
 	cube_held = NULL;
 }
 
@@ -81,7 +83,10 @@ Hero::~Hero() {
 }
 
 int Hero::eventHandler(const df::Event * p_e) {
-	if (p_e->getType() == df::KEYBOARD_EVENT) {
+	if (p_e->getType() == DEATH_EVENT) {
+		death();
+	}
+	if (p_e->getType() == df::KEYBOARD_EVENT && !dead) {
 		const df::EventKeyboard* p_keyboard_event =
 			dynamic_cast <const df::EventKeyboard*> (p_e);
 		kbd(p_keyboard_event);
@@ -94,7 +99,7 @@ int Hero::eventHandler(const df::Event * p_e) {
 		return 1;
 	}
 		//if left mouse press, fire bullet
-	if (p_e->getType() == df::MSE_EVENT) {
+	if (p_e->getType() == df::MSE_EVENT && !dead) {
 		const df::EventMouse* p_mouse_event =
 			dynamic_cast <const df::EventMouse*> (p_e);
 		mouse(p_mouse_event);
@@ -102,7 +107,19 @@ int Hero::eventHandler(const df::Event * p_e) {
 	}
 	//call step every in game step
 	if (p_e->getType() == df::STEP_EVENT) {
-		step();
+		if (dead) {
+			death_cooldown--;
+			if (death_cooldown == 70) {
+				setSprite("hero-dead");
+				DM.setBackgroundColor(BLACK);
+			}
+			if (death_cooldown <= 0) {
+				delete this;
+			}
+		}
+		else {
+			step();
+		}
 		return 1;
 	}
 	if (p_e->getType() == COLLISION_EVENT) {
@@ -224,6 +241,9 @@ void Hero::step() {
 	sword_cooldown--;
 	if (sword_cooldown < 0)
 		sword_cooldown = 0;
+	damage_cooldown--;
+	if (damage_cooldown < 0)
+		damage_cooldown = 0;
 	//STUPID HACKY WAY TO ALLWAYS CHECK COLLISIONS
 	//TODO: maybe make less shit
 	WM.moveObject(this, getPosition());
@@ -311,15 +331,17 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 	else if (p_ec->getObject2()->getType() == "PowerUp") {
 		getPowerUp(dynamic_cast<PowerUp*>(p_ec->getObject2())->type);
 	}
-	else if (p_ec->getObject1()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) {
+	else if ((p_ec->getObject1()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) && damage_cooldown == 0) {
 		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
 		df::EventView ev(HEALTH_STRING, -e->getDamage() , true);
 		WM.onEvent(&ev);
+		damage_cooldown = damage_slowdown;
 	}
-	else if (p_ec->getObject2()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) {
+	else if ((p_ec->getObject2()->getType() == "Enemy" || (p_ec->getObject2()->getType() == "Arrow")) && damage_cooldown == 0) {
 		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
 		df::EventView ev(HEALTH_STRING, -e->getDamage(), true);
 		WM.onEvent(&ev);
+		damage_cooldown = damage_slowdown;
 	}
 	else if (p_ec->getObject1()->getType() == "Cube") {
 		Cube* c = dynamic_cast<Cube*>(p_ec->getObject1());
@@ -410,4 +432,10 @@ void Hero::dropCube() {
 	ItemContainer* ic = currentRoom->getItemContainer(cube_held->getId());
 	ic->setPosition(cube_held->getPosition());
 	cube_held = NULL;
+}
+void Hero::death() {
+	dead = true;
+	death_cooldown = 90;
+	currentRoom->unloadRoom();
+	DM.setBackgroundColor(RED);
 }

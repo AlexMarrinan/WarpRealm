@@ -22,9 +22,13 @@ private:
     int portal_cooldown;
     int sword_slowdown;
     int sword_cooldown;
-    
+    int damage_slowdown;
+    int damage_cooldown;
+    int death_cooldown;
+
     bool hasPortalGun;
     bool hasSword;
+    bool dead;
 
     Portal* blue_portal;
     Portal* red_portal;
@@ -50,4 +54,5 @@ public:
     bool intersectsObject(Object* i);
     void getPowerUp(PowerUpType type);
     void dropCube();
+    void death();
 };

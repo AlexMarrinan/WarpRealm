@@ -1,4 +1,6 @@
 #include "Points.h"
+#include "EventDeath.h"
+#include "WorldManager.h"
 
 int Points::key_count;
 
@@ -9,6 +11,7 @@ Points::Points() {
 	setBorder(false);
 	// Need to update score each second, so count "step" events.
 	registerInterest(df::STEP_EVENT);
+	registerInterest(DEATH_EVENT);
 }
 
 int Points::eventHandler(const df::Event* p_e) {
@@ -18,11 +21,11 @@ int Points::eventHandler(const df::Event* p_e) {
 	}
 	// If step, increment score every second (30 steps).
 	if (p_e->getType() == df::STEP_EVENT) {
-		/*if (dynamic_cast <const df::EventStep*> (p_e)
-			->getStepCount() % 30 == 0)
-			setValue(getValue() + 1);*/
 		key_count = this->getValue();
 		return 1;
+	}
+	if (p_e->getType() == DEATH_EVENT) {
+		WM.markForDelete(this);
 	}
 	// If get here, have ignored this event.
 	return 0;
