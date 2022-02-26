@@ -93,13 +93,17 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 				WD = PortalDirection::D;
 			}
 		}
-		if (wt == V_1) {
+		else if (wt == V_1) {
 			if (this->getPosition().getX() > w->getPosition().getX()) {
 				WD = PortalDirection::R;
 			}
 			else {
 				WD = PortalDirection::L;
 			}
+		}
+		else {
+			WM.markForDelete(this);
+			return;
 		}
 		Portal* p = new Portal(getPosition()-portal_offset, p_hero->getPortal(isBlue), this->isBlue, WD);
 		p_hero->setPortal(p, isBlue);
