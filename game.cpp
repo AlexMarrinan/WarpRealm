@@ -122,7 +122,9 @@ void populateWorld() {
     r9->setNextRoom(r8, RoomDirection::UP);
     r0->setNextRoom(r9, RoomDirection::RIGHT);
     r9->setNextRoom(r0, RoomDirection::LEFT);
-
+    Room* r10 = new Room("rooms/10.txt");
+    r9->setNextRoom(r10, RoomDirection::RIGHT);
+    r10->setNextRoom(r9, RoomDirection::LEFT);
     new Points;
     new HealthDisplay;
 
