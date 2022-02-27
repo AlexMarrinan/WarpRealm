@@ -39,7 +39,7 @@ GameOver::~GameOver() {
 			dynamic_cast <GameStart*> (p_o)->playMusic(); // Resume start music.
 		}
 	}
-	new GameStart;
+	GM.setGameOver();
 }
 
 int GameOver::eventHandler(const df::Event* p_e) {

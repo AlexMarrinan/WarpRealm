@@ -14,9 +14,16 @@ Monster::Monster(df::Vector position, df::Vector velocity, int id) {
 	setVelocity(velocity);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(DETECT_EVENT);
-	moving = false;
 	move_slowdown = 20;
 	move_cooldown = move_slowdown;
+
+	if (velocity.getX() != 0 && velocity.getY() != 0) {
+		moving = true;
+	}
+	else {
+		moving = false;
+	}
+
 
 }
 int Monster::eventHandler(const df::Event* p_e) {
@@ -60,6 +67,16 @@ int Monster::eventHandler(const df::Event* p_e) {
 		if ((ec->getObject1()->getType() == "Sword" || ec->getObject2()->getType() == "Sword") && damage_cooldown == 0) {
 			takeDamage(1);
 		}
+		else if (ec->getObject1()->getType() == "Portal") {
+			usePortal(dynamic_cast<Portal*>(ec->getObject1()));
+			WM.markForDelete(this);
+			return 1;
+		} 
+		else if (ec->getObject2()->getType() == "Portal") {
+			usePortal(dynamic_cast<Portal*>(ec->getObject2()));
+			WM.markForDelete(this);
+			return 1;
+		}
 		else if ((ec->getObject1()->getType() == "Button" || ec->getObject2()->getType() == "Button") ||
 				(ec->getObject1()->getType() == "Fizzler" || ec->getObject2()->getType() == "Fizzler")) {
 			return 1;
@@ -70,4 +87,60 @@ int Monster::eventHandler(const df::Event* p_e) {
 		return 1;
 	}
 	return Enemy::eventHandler(p_e);
+}
+
+void Monster::usePortal(Portal* p)
+{
+	//LM.writeLog("arrow using portal");
+	//if (portal_cooldown <= 0) {
+	//	portal_cooldown = portal_slowdown;
+	if (p->isBluePortal() && p->getOtherPortal() != NULL) {
+		//LM.writeLog("blue");
+		//this->setPosition(p->getOtherPortal()->getPosition() + Vector(3, 0));
+		PortalDirection pd = p->getOtherPortal()->getDirection();
+		Vector offset;
+		Vector v;
+		if (pd == D) {
+			v.setXY(0, -0.75);
+			offset.setXY(0, -3);
+		}
+		else if (pd == U) {
+			v.setXY(0, 0.75);
+			offset.setXY(0, 3);
+		}
+		else if (pd == L) {
+			v.setXY(-1.5, 0);
+			offset.setXY(-5, 0);
+		}
+		else if (pd == R) {
+			v.setXY(1.5, 0);
+			offset.setXY(5, 0);
+		}
+		new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId());
+		p->getOtherPortal()->setSolidness(SOFT);
+	}
+	else if (!p->isBluePortal() && p->getOtherPortal() != NULL) {
+		//this->setPosition(p->getOtherPortal()->getPosition()+Vector(3,0));
+		PortalDirection pd = p->getOtherPortal()->getDirection();
+		Vector offset;
+		Vector v;
+		if (pd == D) {
+			v.setXY(0, -0.75);
+			offset.setXY(0, -3);
+		}
+		else if (pd == U) {
+			v.setXY(0, 0.75);
+			offset.setXY(0, 3);
+		}
+		else if (pd == L) {
+			v.setXY(-1.5, 0);
+			offset.setXY(-5, 0);
+		}
+		else if (pd == R) {
+			v.setXY(1.5, 0);
+			offset.setXY(5, 0);
+		}
+		new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId());
+		p->getOtherPortal()->setSolidness(SOFT);
+	}
 }

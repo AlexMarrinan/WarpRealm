@@ -29,9 +29,9 @@ int Arrow::eventHandler(const df::Event* p_e) {
 		if (p_ec->getObject1()->getType() == "Turret" || p_ec->getObject2()->getType() == "Turret") {
 			return 1;
 		}
-			if (p_ec->getObject1()->getType() == "Portal") {
-		LM.writeLog("hitting portal");
-		usePortal(dynamic_cast<Portal*>(p_ec->getObject1()));
+		if (p_ec->getObject1()->getType() == "Portal") {
+			LM.writeLog("hitting portal");
+			usePortal(dynamic_cast<Portal*>(p_ec->getObject1()));
 		}
 		else if (p_ec->getObject2()->getType() == "Portal") {
 			LM.writeLog("hitting portal");

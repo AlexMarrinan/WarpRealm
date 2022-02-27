@@ -87,18 +87,7 @@ void loadResources(void) {
 // Populate world with some objects.
 void populateWorld() {
 
-    // Spawn some Stars.
-   // for (int i = 0; i < 16; i++)
-    //    new Star;
-
     Hero* hero = new Hero;
-
-    /*
-    new Wall(H_1, Vector(20, 12));
-    new Wall(H_1, Vector(22, 12));
-    new Wall(V_1, Vector(23, 11));
-    new Wall(V_1, Vector(23, 9));
-    */
 
     Room* r0 = new Room("rooms/00.txt");
     r0->loadRoom();
