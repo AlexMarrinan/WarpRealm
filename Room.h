@@ -22,7 +22,8 @@
 #define DOOR_TILE_V 'D'
 #define DOOR_TILE_H 'd'
 #define BUTTON_TILE 'B'
-#define LOCKEDDOOR_TILE 'L'
+#define LOCKEDDOOR_TILE_V 'L'
+#define LOCKEDDOOR_TILE_H 'l'
 
 #define TURRET_TILE 'T'
 #define CUBE_TILE 'C'

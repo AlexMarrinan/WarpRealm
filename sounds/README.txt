@@ -23,6 +23,9 @@ objects, and enemies can travel through.
 The layout of the world so far is mainly just for testing different mechanics, so the puzzles
 are either not very hard or arent even puzzles at all.
 
+Once you have reached the room with the giant "THE END" text, you've explored our entire
+test map!
+
 Mechnaics:
 Buttons that open doors.
 Keys that unlock locked doors/chests

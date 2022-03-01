@@ -16,7 +16,7 @@ window_vertical_pixels:900,
 
 # Window dimensions in characters.
 window_horizontal_chars:80,
-window_vertical_chars:24,
+window_vertical_chars:26,
 
 # Font scale multiplier (2.0 is "normal", 1.0 for "square").
 font_scale:2.0,

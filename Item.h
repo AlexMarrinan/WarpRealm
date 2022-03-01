@@ -4,7 +4,8 @@
 
 enum ItemType {
 	KEY = 0,
-	LOCKED_DOOR = 1,
+	LOCKED_DOOR_H = 1,
+	LOCKED_DOOR_V,
 	TURRET,
 	BUTTON,
 	DOOR_H,

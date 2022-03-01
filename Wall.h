@@ -13,9 +13,11 @@ using namespace df;
 #define WALL_WATER_STR "water_tile"
 #define WALL_FIZZLER_STR "fizzler"
 #define WALL_DLH_STR "door_locked_h"
+#define WALL_DLV_STR "door_locked_v"
 #define WALL_DV_STR "door_v"
 #define WALL_DH_STR "door_h"
 #define WALL_DVO_STR "door_v_open"
+
 //Portal surfaces
 #define WALL_H1_STR_P "h_1_p"
 #define WALL_V1_STR_P "v_1_p"

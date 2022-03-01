@@ -3,7 +3,7 @@
 class LockedDoor: public Item
 {
 public:
-	LockedDoor(df::Vector positon, int id);
+	LockedDoor(df::Vector positon, bool isHorizontal, int id);
 	void getItem();
 };
 

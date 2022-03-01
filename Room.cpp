@@ -71,8 +71,12 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(KEY, Vector(k * 2 + 4, i * 1.95 +1), item_id));
 				item_id++;
 			}
-			else if (c == LOCKEDDOOR_TILE) {
-				items.push_back(new ItemContainer(LOCKED_DOOR, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+			else if (c == LOCKEDDOOR_TILE_V) {
+				items.push_back(new ItemContainer(LOCKED_DOOR_V, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
+			else if (c == LOCKEDDOOR_TILE_H) {
+				items.push_back(new ItemContainer(LOCKED_DOOR_H, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
 				item_id++;
 			}
 			else if (c == TURRET_TILE) {
@@ -150,8 +154,13 @@ void Room::loadRoom() {
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(key);
 			}
-			else if (ic.getType() == LOCKED_DOOR) {
-				LockedDoor* door = new LockedDoor(ic.getPosition(), ic.getId());
+			else if (ic.getType() == LOCKED_DOOR_H) {
+				LockedDoor* door = new LockedDoor(ic.getPosition(), true, ic.getId());
+				//LM.writeLog("ic id: %d", ic.getId());
+				loaded.insert(door);
+			}
+			else if (ic.getType() == LOCKED_DOOR_V) {
+				LockedDoor* door = new LockedDoor(ic.getPosition(), false, ic.getId());
 				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}

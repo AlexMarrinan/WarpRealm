@@ -2,6 +2,7 @@
 // game.cpp
 //
 // Engine includes.
+
 #include "GameManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
@@ -9,7 +10,6 @@
 #include "Hero.h"
 #include "Bullet.h"
 #include "Points.h"
-#include "Star.h"
 #include "GameStart.h"
 #include "Pause.h"
 #include "game.h"
@@ -25,6 +25,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/walls/n_1.txt", WALL_N1_STR);
     RM.loadSprite("sprites/walls/water.txt", WALL_WATER_STR);
     RM.loadSprite("sprites/walls/fizzler.txt", WALL_FIZZLER_STR);
+    RM.loadSprite("sprites/walls/door_v_locked.txt", WALL_DLH_STR);
     RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DLH_STR);
     RM.loadSprite("sprites/walls/door_v.txt", WALL_DV_STR);
     RM.loadSprite("sprites/walls/door_h.txt", WALL_DH_STR);
@@ -56,7 +57,6 @@ void loadResources(void) {
 
     RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");
     RM.loadSprite("sprites/pu-sword-spr.txt", "pu-sword");
-
 
     RM.loadSprite("sprites/empty-spr.txt", "empty");
     
@@ -97,8 +97,10 @@ void populateWorld() {
     r0->setNextRoom(r1, RoomDirection::UP);
     r1->setNextRoom(r0, RoomDirection::DOWN);
     Room* r2 = new Room("rooms/02.txt");
-    r0->setNextRoom(r2, RoomDirection::DOWN);
-    r2->setNextRoom(r0, RoomDirection::UP);
+    r1->setNextRoom(r2, RoomDirection::UP);
+    r2->setNextRoom(r1, RoomDirection::DOWN);
+
+    /*
     Room* r3 = new Room("rooms/03.txt");
     r3->setNextRoom(r1, RoomDirection::RIGHT);
     r1->setNextRoom(r3, RoomDirection::LEFT);
@@ -124,7 +126,7 @@ void populateWorld() {
     r9->setNextRoom(r0, RoomDirection::LEFT);
     Room* r10 = new Room("rooms/10.txt");
     r9->setNextRoom(r10, RoomDirection::RIGHT);
-    r10->setNextRoom(r9, RoomDirection::LEFT);
+    r10->setNextRoom(r9, RoomDirection::LEFT);*/
     new Points;
     new HealthDisplay;
 
