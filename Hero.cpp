@@ -306,7 +306,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	// Compute normalized vector to position, then scale by speed (1).
 	df::Vector v = target - getPosition();
 	v.normalize();
-	v.scale(3.0);
+	v.scale(2.0);
 	Bullet* p = new Bullet(this, isBlue);
 	p->setVelocity(v);
 
@@ -348,15 +348,15 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 		getPowerUp(dynamic_cast<PowerUp*>(p_ec->getObject2())->type);
 	}
 	else if ((p_ec->getObject1()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) && damage_cooldown == 0) {
-		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
-		df::EventView ev(HEALTH_STRING, -e->getDamage() , true);
-		WM.onEvent(&ev);
+		/*Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
+		df::EventView ev(HEALTH_STRING, -e->getDamage() , true*/
+		//WM.onEvent(&ev);
 		damage_cooldown = damage_slowdown;
 	}
 	else if ((p_ec->getObject2()->getType() == "Enemy" || (p_ec->getObject2()->getType() == "Arrow")) && damage_cooldown == 0) {
-		Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
+		/*Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
 		df::EventView ev(HEALTH_STRING, -e->getDamage(), true);
-		WM.onEvent(&ev);
+		WM.onEvent(&ev);*/
 		damage_cooldown = damage_slowdown;
 	}
 	else if (p_ec->getObject1()->getType() == "Cube") {

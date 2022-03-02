@@ -31,7 +31,7 @@
 #define CHEST_TILE 'c'
 #define PORTALS_PU_TILE 'G'
 #define SWORD_PU_TILE 'S'
-
+#define EXITDOOR_TILE 'E'
 #define MONSTER_TILE 'M'
 
 #define W_WALL_COLOR GREEN

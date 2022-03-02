@@ -1,12 +1,13 @@
 <HEADER>
 frames 1
-width 1
-height 1
-color blue
+width 14
+height 2
+color red
 slowdown 5
 </HEADER>
 <BODY>
-o
+[-----||-----]
+[-----||-----]
 end
 </BODY>
 <FOOTER>

@@ -166,6 +166,7 @@
     <ClCompile Include="EventDetect.cpp" />
     <ClCompile Include="EventNuke.cpp" />
     <ClCompile Include="EventUnload.cpp" />
+    <ClCompile Include="ExiitDoor.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FizzlerWall.cpp" />
     <ClCompile Include="game.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="LaserDisplay.cpp" />
     <ClCompile Include="LockedDoor.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="OrbIcon.cpp" />
     <ClCompile Include="Points.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PowerUp.cpp" />
@@ -204,6 +206,7 @@
     <ClInclude Include="EventDetect.h" />
     <ClInclude Include="EventNuke.h" />
     <ClInclude Include="EventUnload.h" />
+    <ClInclude Include="ExiitDoor.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="FizzlerWall.h" />
     <ClInclude Include="game.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="LaserDisplay.h" />
     <ClInclude Include="LockedDoor.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="OrbIcon.h" />
     <ClInclude Include="Points.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PowerUp.h" />

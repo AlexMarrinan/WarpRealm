@@ -16,12 +16,8 @@ Chest::Chest(df::Vector positon, int id) {
 }
 
 void Chest::getItem() {
-	if (Points::key_count > 0) {
-		df::EventView ev(POINTS_STRING, -1, true);
-		WM.onEvent(&ev);
-		df::EventView ev2(HEALTH_STRING, +5, true);
-		WM.onEvent(&ev2);
-		EventUnload eu(this);
-		WM.onEvent(&eu);
-	}
+	df::EventView ev2(ORB_STRING, +1, true);
+	WM.onEvent(&ev2);
+	EventUnload eu(this);
+	WM.onEvent(&eu);
 }

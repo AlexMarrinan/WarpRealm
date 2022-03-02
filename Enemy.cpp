@@ -40,9 +40,4 @@ int Enemy::eventHandler(const df::Event* p_e)  {
 void Enemy::takeDamage(int damage) {
 	this->health--;
 	this->damage_cooldown = damage_slowdown;
-	if (health <= 0) {
-		df::EventView ev(HEALTH_STRING, 1, true);
-		WM.onEvent(&ev);
-		WM.markForDelete(this);
-	}
 }

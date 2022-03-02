@@ -2,14 +2,14 @@
 #include "WorldManager.h"
 #include "EventDeath.h"
 
-int HealthDisplay::hp;
+int HealthDisplay::orbs;
 
 HealthDisplay::HealthDisplay() {
 	setLocation(df::TOP_LEFT);
-	setViewString(HEALTH_STRING);
+	setViewString(ORB_STRING);
 	setColor(df::YELLOW);
 	setBorder(false);
-	setValue(MAX_HEALTH);
+	setValue(ORB_COUNT);
 	// Need to update score each second, so count "step" events.
 	registerInterest(df::STEP_EVENT);
 }
@@ -24,15 +24,9 @@ int HealthDisplay::eventHandler(const df::Event* p_e) {
 		/*if (dynamic_cast <const df::EventStep*> (p_e)
 			->getStepCount() % 30 == 0)
 			setValue(getValue() + 1);*/
-		hp = this->getValue();
-		if (this->getValue() <= 0) {
-			EventDeath ed;
-			WM.onEvent(&ed);
-			WM.markForDelete(this);
-		}
+		orbs = this->getValue();
 		return 1;
 	}
-
 	// If get here, have ignored this event.
 	return 0;
 }

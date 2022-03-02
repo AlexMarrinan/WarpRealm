@@ -16,6 +16,8 @@
 #include "EventButton.h"
 #include "Monster.h"
 #include "Grass.h"
+#include "HealthDisplay.h"
+#include "ExiitDoor.h"
 
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
@@ -137,6 +139,10 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(BREAKABLE, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
 				item_id++;
 			}
+			else if (c == EXITDOOR_TILE) {
+				items.push_back(new ItemContainer(EXITDOOR, Vector(k * 2 + 5, i * 1.95 + 1), item_id));
+				item_id++;
+			}
 			else if (c == FLOOR_TILE) {
 				//Dont make any walls
 			}
@@ -201,6 +207,10 @@ void Room::loadRoom() {
 			else if (ic.getType() == BREAKABLE) {
 				Grass* breakable = new Grass(ic.getPosition(), ic.getId());
 				loaded.insert(breakable);
+			}
+			else if (ic.getType() == EXITDOOR) {
+				ExitDoor* edoor = new ExitDoor(ic.getPosition(), ic.getId(), HealthDisplay::orbs, this);
+				loaded.insert(edoor);
 			}
 		}
 	}
