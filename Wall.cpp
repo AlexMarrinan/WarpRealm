@@ -37,6 +37,7 @@ void Wall::setWallType(WallType type) {
 	case WATER:
 		setType("Water");
 		setSprite(WALL_WATER_STR);
+		setAltitude(0);
 		break;
 	case FIZZLER:
 		setType("Fizzler");

@@ -11,11 +11,11 @@ Arrow::Arrow(df::Vector direction, df::Vector pos) {
 	setDirection(direction);
 	if (getDirection().getX() == 0) {
 		setSprite("arrow-v");
-		setSpeed(0.4);
+		setSpeed(0.1);
 	}
 	else {
 		setSprite("arrow-h");
-		setSpeed(0.6);
+		setSpeed(0.25);
 	}
 	setType("Arrow");
 	setSolidness(SOFT);

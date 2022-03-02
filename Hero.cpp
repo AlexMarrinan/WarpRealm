@@ -39,7 +39,7 @@ Hero::Hero() {
 	registerInterest(DEATH_EVENT);
 
 	setType("Hero");
-	df::Vector p(10, WM.getBoundary().getVertical() / 2 + 2);
+	df::Vector p(65, WM.getBoundary().getVertical() / 2 + 8);
 	setPosition(p);
 
 	// Create reticle for firing bullets.
@@ -57,8 +57,8 @@ Hero::Hero() {
 	damage_slowdown = 15;
 	damage_cooldown = 0;
 	//death_cooldown = 30;
-	hasPortalGun = false;
-	hasSword = false;
+	hasPortalGun = true;
+	hasSword = true;
 	dead = false;
 
 	blue_portal = NULL;
@@ -306,7 +306,7 @@ void Hero::fire(df::Vector target, bool isBlue) {
 	// Compute normalized vector to position, then scale by speed (1).
 	df::Vector v = target - getPosition();
 	v.normalize();
-	v.scale(1.5);
+	v.scale(3.0);
 	Bullet* p = new Bullet(this, isBlue);
 	p->setVelocity(v);
 
@@ -385,14 +385,18 @@ void Hero::usePortal(Portal* p) {
 	if (portal_cooldown <= 0) {
 		portal_cooldown = portal_slowdown;
 		if (p->isBluePortal() && red_portal != NULL) {
-			LM.writeLog("blue");
-			this->setPosition(red_portal->getPosition());
-			red_portal->setSolidness(SOFT);
+			if (red_portal->canUse) {
+				LM.writeLog("blue");
+				this->setPosition(red_portal->getPosition());
+				red_portal->setSolidness(SOFT);
+			}
 		}
 		else if (!p->isBluePortal() && blue_portal != NULL){
-			LM.writeLog("red");
-			this->setPosition(blue_portal->getPosition());
-			blue_portal->setSolidness(SOFT);
+			if (blue_portal->canUse) {
+				LM.writeLog("red");
+				this->setPosition(blue_portal->getPosition());
+				blue_portal->setSolidness(SOFT);
+			}
 		}
 	}
 }

@@ -156,7 +156,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Arrow.cpp" />
-    <ClCompile Include="BigSaucer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -172,6 +171,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameStart.cpp" />
+    <ClCompile Include="Grass.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -185,7 +185,6 @@
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Sword.cpp" />
@@ -194,7 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arrow.h" />
-    <ClInclude Include="BigSaucer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Chest.h" />
@@ -211,6 +209,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameStart.h" />
+    <ClInclude Include="Grass.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Item.h" />
@@ -224,7 +223,6 @@
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Reticle.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="Saucer.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Turret.h" />

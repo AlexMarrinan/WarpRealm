@@ -15,6 +15,7 @@
 #include "PowerUp.h"
 #include "EventButton.h"
 #include "Monster.h"
+#include "Grass.h"
 
 Room::Room(std::string filename) {
 	this->id = 0;//next_id;
@@ -132,6 +133,10 @@ void Room::loadWalls(std::string filename) {
 				items.push_back(new ItemContainer(MONSTER, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
 				item_id++;
 			}
+			else if (c == BREAKABLE_TILE) {
+				items.push_back(new ItemContainer(BREAKABLE, Vector(k * 2 + 4, i * 1.95 + 1), item_id));
+				item_id++;
+			}
 			else if (c == FLOOR_TILE) {
 				//Dont make any walls
 			}
@@ -151,58 +156,51 @@ void Room::loadRoom() {
 		if (ic.shouldLoad()) {
 			if (ic.getType() == KEY) {
 				Key* key = new Key(ic.getPosition(), ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(key);
 			}
 			else if (ic.getType() == LOCKED_DOOR_H) {
 				LockedDoor* door = new LockedDoor(ic.getPosition(), true, ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}
 			else if (ic.getType() == LOCKED_DOOR_V) {
 				LockedDoor* door = new LockedDoor(ic.getPosition(), false, ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}
 			else if (ic.getType() == TURRET) {
 				Turret* turret = new Turret(ic.getPosition());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(turret);
 			}
 			else if (ic.getType() == BUTTON) {
 				Button* button = new Button(ic.getPosition(), ic.getId(), ic.getButtonId(), ic.activated);
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(button);
 			}
 			else if (ic.getType() == DOOR_H) {
 				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId(), HORIZONTAL);
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}
 			else if (ic.getType() == DOOR_V) {
 				Door* door = new Door(ic.getPosition(), ic.getId(), ic.getButtonId(), VERTICAL);
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(door);
 			}
 			else if (ic.getType() == CUBE) {
 				Cube* cube = new Cube(ic.getPosition(), ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(cube);
 			}
 			else if (ic.getType() == CHEST) {
 				Chest* chest = new Chest(ic.getPosition(), ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(chest);
 			}
 			else if (ic.getType() == POWERUP) {
 				PowerUp* pu = new PowerUp(ic.getPosition(), ic.getId(), ic.getPowerUpType());
-				//LM.writeLog("ic id: %d", ic.getId());
 				loaded.insert(pu);
 			}
 			else if (ic.getType() == MONSTER) {
-				Monster* monster = new Monster(ic.getPosition(), Vector(0,0), ic.getId());
-				//LM.writeLog("ic id: %d", ic.getId());
+				Monster* monster = new Monster(ic.getPosition(), Vector(0,0), ic.getId(), this);
 				loaded.insert(monster);
+			}
+			else if (ic.getType() == BREAKABLE) {
+				Grass* breakable = new Grass(ic.getPosition(), ic.getId());
+				loaded.insert(breakable);
 			}
 		}
 	}

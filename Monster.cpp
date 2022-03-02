@@ -2,8 +2,9 @@
 #include "EventCollision.h"
 #include "WorldManager.h"
 #include "EventDetect.h"
+#include "Room.h"
 
-Monster::Monster(df::Vector position, df::Vector velocity, int id) {
+Monster::Monster(df::Vector position, df::Vector velocity, int id, Room* room) {
 	h = NULL;
 	setType("Enemy");
 	setSprite("monster");
@@ -16,6 +17,7 @@ Monster::Monster(df::Vector position, df::Vector velocity, int id) {
 	registerInterest(DETECT_EVENT);
 	move_slowdown = 20;
 	move_cooldown = move_slowdown;
+	this->room = room;
 
 	if (velocity.getX() != 0 && velocity.getY() != 0) {
 		moving = true;
@@ -116,8 +118,10 @@ void Monster::usePortal(Portal* p)
 			v.setXY(1.5, 0);
 			offset.setXY(5, 0);
 		}
-		new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId());
+		Monster* m = new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId(), this->room);
 		p->getOtherPortal()->setSolidness(SOFT);
+		room->loaded.remove(this);
+		room->loaded.insert(m);
 	}
 	else if (!p->isBluePortal() && p->getOtherPortal() != NULL) {
 		//this->setPosition(p->getOtherPortal()->getPosition()+Vector(3,0));
@@ -140,7 +144,9 @@ void Monster::usePortal(Portal* p)
 			v.setXY(1.5, 0);
 			offset.setXY(5, 0);
 		}
-		new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId());
+		Monster* m = new Monster(p->getOtherPortal()->getPosition() + offset, v, this->getId(), this->room);
 		p->getOtherPortal()->setSolidness(SOFT);
+		room->loaded.remove(this);
+		room->loaded.insert(m);
 	}
 }

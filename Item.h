@@ -14,6 +14,7 @@ enum ItemType {
 	CHEST,
 	POWERUP,
 	MONSTER,
+	BREAKABLE,
 };
 enum PowerUpType {
 	UNDEFINED = -1,

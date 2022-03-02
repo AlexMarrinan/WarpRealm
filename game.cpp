@@ -54,6 +54,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/button-off-spr.txt", "button-off");
     RM.loadSprite("sprites/cube-spr.txt", "cube");
     RM.loadSprite("sprites/monster-spr.txt", "monster");
+    RM.loadSprite("sprites/breakable-spr.txt", "breakable");
 
     RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");
     RM.loadSprite("sprites/pu-sword-spr.txt", "pu-sword");
@@ -68,11 +69,6 @@ void loadResources(void) {
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
     RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 
-    RM.loadSprite("sprites/big-saucer-4-spr.txt", "bigsaucer4");
-    RM.loadSprite("sprites/big-saucer-3-spr.txt", "bigsaucer3");
-    RM.loadSprite("sprites/big-saucer-2-spr.txt", "bigsaucer2");
-    RM.loadSprite("sprites/big-saucer-1-spr.txt", "bigsaucer1");
-
     RM.loadSound("sounds/fire.wav", "fire");
     RM.loadSound("sounds/explode.wav", "explode");
     RM.loadSound("sounds/nuke.wav", "nuke");
@@ -84,63 +80,6 @@ void loadResources(void) {
     RM.loadMusic("sounds/start-music.wav", "start music");
 }
 
-// Populate world with some objects.
-void populateWorld() {
-
-    Hero* hero = new Hero;
-
-    Room* r0 = new Room("rooms/00.txt");
-    r0->loadRoom();
-    hero->currentRoom = r0;
-    hero->startingRoom = r0;
-    Room* r1 = new Room("rooms/01.txt");
-    r0->setNextRoom(r1, RoomDirection::UP);
-    r1->setNextRoom(r0, RoomDirection::DOWN);
-    Room* r2 = new Room("rooms/02.txt");
-    r1->setNextRoom(r2, RoomDirection::UP);
-    r2->setNextRoom(r1, RoomDirection::DOWN);
-
-    /*
-    Room* r3 = new Room("rooms/03.txt");
-    r3->setNextRoom(r1, RoomDirection::RIGHT);
-    r1->setNextRoom(r3, RoomDirection::LEFT);
-    Room* r4 = new Room("rooms/04.txt");
-    r1->setNextRoom(r4, RoomDirection::UP);
-    r4->setNextRoom(r1, RoomDirection::DOWN);
-    Room* r5 = new Room("rooms/05.txt");
-    r2->setNextRoom(r5, RoomDirection::LEFT);
-    r5->setNextRoom(r2, RoomDirection::RIGHT);
-    Room* r6 = new Room("rooms/06.txt");
-    r4->setNextRoom(r6, RoomDirection::UP);
-    r6->setNextRoom(r4, RoomDirection::DOWN);
-    Room* r7 = new Room("rooms/07.txt");
-    r6->setNextRoom(r7, RoomDirection::RIGHT);
-    r7->setNextRoom(r6, RoomDirection::LEFT);
-    Room* r8 = new Room("rooms/08.txt");
-    r7->setNextRoom(r8, RoomDirection::DOWN);
-    r8->setNextRoom(r7, RoomDirection::UP);
-    Room* r9 = new Room("rooms/09.txt");
-    r8->setNextRoom(r9, RoomDirection::DOWN);
-    r9->setNextRoom(r8, RoomDirection::UP);
-    r0->setNextRoom(r9, RoomDirection::RIGHT);
-    r9->setNextRoom(r0, RoomDirection::LEFT);
-    Room* r10 = new Room("rooms/10.txt");
-    r9->setNextRoom(r10, RoomDirection::RIGHT);
-    r10->setNextRoom(r9, RoomDirection::LEFT);*/
-    new Points;
-    new HealthDisplay;
-
-    //new Key(Vector(35, 7));
-}
-//spawns regular saucers 95% and big saucers 5%
-void spawnSaucer(int prob) {
-    if (rand() % 100 < prob) {
-        new BigSaucer;
-    }
-    else {
-        new Saucer;
-    }
-}
 int main(int argc, char *argv[]) {
 
   // Start up game manager.
@@ -162,7 +101,8 @@ int main(int argc, char *argv[]) {
   loadResources();
 
   // Populate game world with some objects.
-  populateWorld();
+  //populateWorld();
+  new GameStart;
 
   //new df::Pause(df::Keyboard::F10);
 

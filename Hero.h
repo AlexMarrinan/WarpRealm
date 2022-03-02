@@ -13,7 +13,6 @@ private:
     Reticle* p_reticle;
     df::Vector tempLaserPos1;
     df::Vector tempLaserPos2;
-
     int move_slowdown;
     int move_countdown;
     int fire_slowdown;

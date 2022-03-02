@@ -24,6 +24,7 @@
 #define BUTTON_TILE 'B'
 #define LOCKEDDOOR_TILE_V 'L'
 #define LOCKEDDOOR_TILE_H 'l'
+#define BREAKABLE_TILE 'b'
 
 #define TURRET_TILE 'T'
 #define CUBE_TILE 'C'
@@ -48,7 +49,6 @@ class Room
 private:
 	std::vector<WallContainer*> walls;
 	std::vector<ItemContainer*> items;
-	ObjectList loaded;
 	std::string filename;
 	int id;
 	void loadWalls(std::string filename);
@@ -57,6 +57,7 @@ private:
 	Room* up_room = NULL;
 	Room* down_room = NULL;
 public:
+	ObjectList loaded;
 	bool load_key = false;
 	static int next_id;
 	Room(std::string);
