@@ -69,6 +69,5 @@ public:
 	void removeObject(Object* p_o);
 	void markItemUnload(int id);
 	ItemContainer* getItemContainer(int id);
-
 };
 

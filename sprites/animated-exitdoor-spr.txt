@@ -1,0 +1,36 @@
+<HEADER>
+frames 8
+width 14
+height 2
+color yellow
+slowdown 15
+</HEADER>
+<BODY>
+[-----||-----]
+[-----||-----]
+end
+-----|  |-----
+-----|  |-----
+end
+----|    |----
+----|    |----
+end
+---|      |---
+---|      |---
+end
+--|        |--
+--|        |--
+end
+-|          |-
+-|          |-
+end
+|            |
+|            |
+end
+              
+              
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

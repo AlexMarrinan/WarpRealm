@@ -4,7 +4,7 @@
 #include "WorldManager.h"
 #include "Hero.h"
 
-Arrow::Arrow(df::Vector direction, df::Vector pos) {
+Arrow::Arrow(df::Vector direction, df::Vector pos, Room* room) {
 	//red_portal = Hero::getPortal(false);
 	//blue_portal = Hero.getPortal(true);
 	setPosition(pos);
@@ -17,6 +17,8 @@ Arrow::Arrow(df::Vector direction, df::Vector pos) {
 		setSprite("arrow-h");
 		setSpeed(0.25);
 	}
+	this->room = room;
+	room->loaded.insert(this);
 	setType("Arrow");
 	setSolidness(SOFT);
 	setDamage(1);
@@ -43,6 +45,7 @@ int Arrow::eventHandler(const df::Event* p_e) {
 		else if (p_ec->getObject1()->getType() == "Fizzler" || p_ec->getObject2()->getType() == "Fizzler") {
 			return 0;
 		}
+		room->loaded.remove(this);
 		WM.markForDelete(this);
 		return 1;
 	}
@@ -76,7 +79,7 @@ void Arrow::usePortal(Portal* p)
 			nd.setXY(1, 0);
 			offset.setXY(5, 0);
 		}
-		new Arrow(nd, p->getOtherPortal()->getPosition() + offset);
+		new Arrow(nd, p->getOtherPortal()->getPosition() + offset, this->room);
 		p->getOtherPortal()->setSolidness(SOFT);
 	}
 	else if (!p->isBluePortal() && p->getOtherPortal() != NULL) {
@@ -101,7 +104,7 @@ void Arrow::usePortal(Portal* p)
 			nd.setXY(1, 0);
 			offset.setXY(5, 0);
 		}
-		new Arrow(nd, p->getOtherPortal()->getPosition() + offset);
+		new Arrow(nd, p->getOtherPortal()->getPosition() + offset, this->room);
 		p->getOtherPortal()->setSolidness(SOFT);
 	}
 }

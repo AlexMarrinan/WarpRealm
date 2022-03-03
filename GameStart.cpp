@@ -128,16 +128,11 @@ void GameStart::start() {
     Room* r22 = new Room("rooms/22.txt");
     r20->setNextRoom(r22, RoomDirection::RIGHT);
     r22->setNextRoom(r20, RoomDirection::LEFT);
-    /*
-    Room* r9 = new Room("rooms/09.txt");
-    r8->setNextRoom(r9, RoomDirection::DOWN);
-    r9->setNextRoom(r8, RoomDirection::UP);
-    r0->setNextRoom(r9, RoomDirection::RIGHT);
-    r9->setNextRoom(r0, RoomDirection::LEFT);
-    Room* r10 = new Room("rooms/10.txt");
-    r9->setNextRoom(r10, RoomDirection::RIGHT);
-    r10->setNextRoom(r9, RoomDirection::LEFT);*/
 
+    //Room* rF = new Room("rooms/final.txt");
+    //r2->setNextRoom(rF, RoomDirection::UP);
+    //rF->setNextRoom(r2, RoomDirection::DOWN);
+  
     r0->loadRoom();
     hero->currentRoom = r0;
     hero->startingRoom = r0;

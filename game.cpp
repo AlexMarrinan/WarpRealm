@@ -56,6 +56,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/monster-spr.txt", "monster");
     RM.loadSprite("sprites/breakable-spr.txt", "breakable");
     RM.loadSprite("sprites/exitdoor-spr.txt", "exitdoor");
+    RM.loadSprite("sprites/animated-exitdoor-spr.txt", "animated-exitdoor");
     RM.loadSprite("sprites/orbicon-spr.txt", "orbicon");
     RM.loadSprite("sprites/orbicon-collected-spr.txt", "orbicon-collected");
     RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");

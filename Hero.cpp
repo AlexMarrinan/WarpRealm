@@ -23,6 +23,7 @@
 #include "Cube.h"
 #include "Sword.h"
 #include "EventDeath.h"
+#include "Event.h"
 
 #define X_AMOUNT 1
 #define Y_AMOUNT 0.5
@@ -57,8 +58,8 @@ Hero::Hero() {
 	damage_slowdown = 15;
 	damage_cooldown = 0;
 	//death_cooldown = 30;
-	hasPortalGun = true;
-	hasSword = true;
+	hasPortalGun = false;
+	hasSword = false;
 	dead = false;
 
 	blue_portal = NULL;
@@ -67,24 +68,13 @@ Hero::Hero() {
 }
 
 Hero::~Hero() {
-	// Create GameOver object.
-	// Shake screen (severity 20 pixels x&y, duration 10 frames).
-	DM.shake(20, 20, 10);
-
-	new GameOver;
-
 	// Mark Reticle for deletion.
 	WM.markForDelete(p_reticle);
-	// Make a big explosion with particles.
-	df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
-	df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
-	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
-	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
 }
 
 int Hero::eventHandler(const df::Event * p_e) {
 	if (p_e->getType() == DEATH_EVENT) {
-		death();
+		win();
 	}
 	if (p_e->getType() == df::KEYBOARD_EVENT && !dead) {
 		const df::EventKeyboard* p_keyboard_event =
@@ -108,18 +98,9 @@ int Hero::eventHandler(const df::Event * p_e) {
 	//call step every in game step
 	if (p_e->getType() == df::STEP_EVENT) {
 		if (dead) {
-			death_cooldown--;
-			if (death_cooldown == 70) {
-				setSprite("hero-dead");
-				DM.setBackgroundColor(BLACK);
-			}
-			if (death_cooldown <= 0) {
-				delete this;
-			}
+			WM.moveObject(this, getPosition() + Vector(0, -0.5));
 		}
-		else {
-			step();
-		}
+		step();
 		return 1;
 	}
 	if (p_e->getType() == COLLISION_EVENT) {
@@ -453,9 +434,7 @@ void Hero::dropCube() {
 	ic->setPosition(cube_held->getPosition());
 	cube_held = NULL;
 }
-void Hero::death() {
+void Hero::win() {
 	dead = true;
-	death_cooldown = 90;
-	currentRoom->unloadRoom();
-	DM.setBackgroundColor(RED);
+	//DM.setBackgroundColor(YELLOW);
 }

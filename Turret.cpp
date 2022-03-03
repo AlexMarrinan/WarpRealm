@@ -4,7 +4,7 @@
 #include "EventStep.h"
 #include "LogManager.h"
 
-Turret::Turret(df::Vector position) {
+Turret::Turret(df::Vector position, Room* room) {
 	h = NULL;
 	shoot_slowdown = 45;
 	shoot_countdown = 0;
@@ -14,6 +14,7 @@ Turret::Turret(df::Vector position) {
 	setPosition(position);
 	registerInterest(DETECT_EVENT);
 	registerInterest(df::STEP_EVENT);
+	this->room = room;
 }
 int Turret::eventHandler(const df::Event* p_e) {
 	if (p_e->getType() == STEP_EVENT) {
@@ -50,6 +51,6 @@ int Turret::eventHandler(const df::Event* p_e) {
 	return 0;
 }
 void Turret::fire(df::Vector direction) {
-	new Arrow(direction, getPosition() + direction);
+	new Arrow(direction, getPosition() + direction, this->room);
 	shoot_countdown = shoot_slowdown;
 }

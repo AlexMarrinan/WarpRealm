@@ -53,5 +53,5 @@ public:
     bool intersectsObject(Object* i);
     void getPowerUp(PowerUpType type);
     void dropCube();
-    void death();
+    void win();
 };

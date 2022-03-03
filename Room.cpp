@@ -173,7 +173,7 @@ void Room::loadRoom() {
 				loaded.insert(door);
 			}
 			else if (ic.getType() == TURRET) {
-				Turret* turret = new Turret(ic.getPosition());
+				Turret* turret = new Turret(ic.getPosition(), this);
 				loaded.insert(turret);
 			}
 			else if (ic.getType() == BUTTON) {
