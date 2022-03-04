@@ -24,7 +24,7 @@ void Button::getItem() {
 
 }
 int Button::eventHandler(const df::Event* p_e) {
-	if (p_e->getType() == df::STEP_EVENT ) {
+	if (p_e->getType() == df::STEP_EVENT) {
 		countdown--;
 		if (countdown < 0) {
 			countdown == 0;

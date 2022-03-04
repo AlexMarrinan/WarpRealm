@@ -60,6 +60,9 @@ int Portal::eventHandler(const df::Event* p_e) {
 			canUse = false;
 			unregisterInterest(df::STEP_EVENT);
 		}
+		//if (ec->getObject1()->getType() == "Portal" && ec->getObject2()->getType() == "Portal") {
+		//	WM.markForDelete(this);
+		//}
 		return 1;
 	}
 	return 0;

@@ -17,6 +17,7 @@
 #define FLOOR_TILE '_'
 #define WATER_TILE 'W'
 #define FIZZLER_TILE 'F'
+#define FIZZLER_V_TILE 'f'
 #define KEY_TILE 'K'
 
 #define DOOR_TILE_V 'D'

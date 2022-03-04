@@ -7,7 +7,6 @@
 #include "Wall.h"
 
 LockedDoor::LockedDoor(df::Vector positon, bool isHorizontal, int id) {
-	setSprite(WALL_DLH_STR);
 	if (isHorizontal){
 		setSprite(WALL_DLH_STR);
 	}

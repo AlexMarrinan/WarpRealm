@@ -4,6 +4,7 @@
 #include "WorldManager.h"
 #include "EventUnload.h"
 #include "Hero.h"
+#include "ResourceManager.h"
 
 PowerUp::PowerUp(df::Vector positon, int id, PowerUpType type) {
 	setType("PowerUp");
@@ -23,6 +24,16 @@ PowerUp::PowerUp(df::Vector positon, int id, PowerUpType type) {
 }
 
 void PowerUp::getItem() {
+	switch (type) {
+	case PORTALS:
+		//df::Sound* p_sound = RM.getSound("equip-portals");
+		//p_sound->play();		
+		break;
+	case SWORD:
+		df::Sound* p_sound = RM.getSound("equip-sword");
+		p_sound->play();		
+		break;
+	}
 	EventUnload eu(this);
 	WM.onEvent(&eu);
 }

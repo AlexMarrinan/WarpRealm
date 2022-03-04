@@ -6,6 +6,7 @@
 #include "WorldManager.h"
 #include "HealthDisplay.h"
 #include "Wall.h"
+#include "ResourceManager.h"
 
 Chest::Chest(df::Vector positon, int id) {
 	setSprite("chest");
@@ -16,6 +17,8 @@ Chest::Chest(df::Vector positon, int id) {
 }
 
 void Chest::getItem() {
+	df::Sound* p_sound = RM.getSound("equip-orb");
+	p_sound->play();
 	df::EventView ev2(ORB_STRING, +1, true);
 	WM.onEvent(&ev2);
 	EventUnload eu(this);

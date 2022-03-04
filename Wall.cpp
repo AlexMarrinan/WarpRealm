@@ -45,6 +45,12 @@ void Wall::setWallType(WallType type) {
 		setAltitude(0);
 		setSprite(WALL_FIZZLER_STR);
 		break;
+	case FIZZLER_V:
+		setType("Fizzler");
+		setSolidness(SOFT);
+		setAltitude(0);
+		setSprite(WALL_FIZZLER_V_STR);
+		break;
 	}
 }
 WallType Wall::getWallType() const {

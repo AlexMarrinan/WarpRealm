@@ -4,6 +4,7 @@
 #include "EventDetect.h"
 #include "EventUnload.h"
 #include "Room.h"
+#include "ResourceManager.h"
 
 Grass::Grass(df::Vector position, int id) {
 	setType("Enemy");
@@ -21,6 +22,8 @@ int Grass::eventHandler(const df::Event* p_e) {
 		//LM.writeLog("%s", ec->getObject1()->getType().c_str());
 		//LM.writeLog("%s", ec->getObject2()->getType().c_str());
 		if ((ec->getObject1()->getType() == "Sword" || ec->getObject2()->getType() == "Sword") && damage_cooldown == 0) {
+			df::Sound* p_sound = RM.getSound("breakable");
+			p_sound->play();
 			EventUnload eu(this);
 			WM.onEvent(&eu);
 		}

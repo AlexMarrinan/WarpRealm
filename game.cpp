@@ -25,7 +25,9 @@ void loadResources(void) {
     RM.loadSprite("sprites/walls/n_1.txt", WALL_N1_STR);
     RM.loadSprite("sprites/walls/water.txt", WALL_WATER_STR);
     RM.loadSprite("sprites/walls/fizzler.txt", WALL_FIZZLER_STR);
-    RM.loadSprite("sprites/walls/door_v_locked.txt", WALL_DLH_STR);
+    RM.loadSprite("sprites/walls/fizzler-v.txt", WALL_FIZZLER_V_STR);
+
+    RM.loadSprite("sprites/walls/door_v_locked.txt", WALL_DLV_STR);
     RM.loadSprite("sprites/walls/door_h_locked.txt", WALL_DLH_STR);
     RM.loadSprite("sprites/walls/door_v.txt", WALL_DV_STR);
     RM.loadSprite("sprites/walls/door_h.txt", WALL_DH_STR);
@@ -48,8 +50,12 @@ void loadResources(void) {
 
     RM.loadSprite("sprites/key-spr.txt", "key");
     RM.loadSprite("sprites/turret-spr.txt", "turret");
-    RM.loadSprite("sprites/arrow-h-spr.txt", "arrow-h");
-    RM.loadSprite("sprites/arrow-v-spr.txt", "arrow-v");
+
+    RM.loadSprite("sprites/arrow-u-spr.txt", "arrow-u");
+    RM.loadSprite("sprites/arrow-d-spr.txt", "arrow-d");
+    RM.loadSprite("sprites/arrow-l-spr.txt", "arrow-l");
+    RM.loadSprite("sprites/arrow-r-spr.txt", "arrow-r");
+
     RM.loadSprite("sprites/button-on-spr.txt", "button-on");
     RM.loadSprite("sprites/button-off-spr.txt", "button-off");
     RM.loadSprite("sprites/cube-spr.txt", "cube");
@@ -62,25 +68,29 @@ void loadResources(void) {
     RM.loadSprite("sprites/pu-portals-spr.txt", "pu-portals");
     RM.loadSprite("sprites/pu-sword-spr.txt", "pu-sword");
 
+    RM.loadSprite("sprites/sword-u.txt", "sword-u");
+    RM.loadSprite("sprites/sword-d.txt", "sword-d");
+    RM.loadSprite("sprites/sword-l.txt", "sword-l");
+    RM.loadSprite("sprites/sword-r.txt", "sword-r");
+
     RM.loadSprite("sprites/empty-spr.txt", "empty");
     
     //OLD
-   // RM.loadSprite("sprites/saucer-spr.txt", "saucer");
-
-    RM.loadSprite("sprites/laser-spr.txt", "laser");
-    RM.loadSprite("sprites/explosion-spr.txt", "explosion");
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
     RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 
-    RM.loadSound("sounds/fire.wav", "fire");
-    RM.loadSound("sounds/explode.wav", "explode");
-    RM.loadSound("sounds/nuke.wav", "nuke");
-    RM.loadSound("sounds/game-over.wav", "game over");
+    RM.loadSound("sounds/breakable.wav", "breakable");
+    RM.loadSound("sounds/equip-sword.wav", "equip-sword");
+    RM.loadSound("sounds/equip-orb.wav", "equip-orb");
+    RM.loadSound("sounds/sword-slash.wav", "sword-slash");
+    RM.loadSound("sounds/arrow-shoot.wav", "arrow-shoot");
+    RM.loadSound("sounds/win.wav", "win");
+    RM.loadSound("sounds/keys.wav", "keys");
 
     RM.loadSound("sounds/blue-portal-open.wav", "blue-portal-open");
     RM.loadSound("sounds/blue-portal-shoot.wav", "blue-portal-shoot");
 
-    RM.loadMusic("sounds/start-music.wav", "start music");
+    RM.loadMusic("sounds/game-music.wav", "game-music");
 }
 
 int main(int argc, char *argv[]) {

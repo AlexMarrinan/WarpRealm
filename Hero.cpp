@@ -40,7 +40,7 @@ Hero::Hero() {
 	registerInterest(DEATH_EVENT);
 
 	setType("Hero");
-	df::Vector p(65, WM.getBoundary().getVertical() / 2 + 8);
+	df::Vector p(WM.getBoundary().getHorizontal()/2, WM.getBoundary().getVertical() / 2);
 	setPosition(p);
 
 	// Create reticle for firing bullets.
@@ -49,7 +49,7 @@ Hero::Hero() {
 
 	move_slowdown = 1;
 	move_countdown = move_slowdown;
-	fire_slowdown = 10;
+	fire_slowdown = 5;
 	fire_countdown = fire_slowdown;
 	portal_slowdown = 15;
 	portal_cooldown = 0;
@@ -61,7 +61,8 @@ Hero::Hero() {
 	hasPortalGun = false;
 	hasSword = false;
 	dead = false;
-
+	p_music = RM.getMusic("game-music");
+	p_music->play();
 	blue_portal = NULL;
 	red_portal = NULL;
 	cube_held = NULL;
@@ -72,7 +73,7 @@ Hero::~Hero() {
 	WM.markForDelete(p_reticle);
 }
 
-int Hero::eventHandler(const df::Event * p_e) {
+int Hero::eventHandler(const df::Event* p_e) {
 	if (p_e->getType() == DEATH_EVENT) {
 		win();
 	}
@@ -88,7 +89,7 @@ int Hero::eventHandler(const df::Event * p_e) {
 		out();
 		return 1;
 	}
-		//if left mouse press, fire bullet
+	//if left mouse press, fire bullet
 	if (p_e->getType() == df::MSE_EVENT && !dead) {
 		const df::EventMouse* p_mouse_event =
 			dynamic_cast <const df::EventMouse*> (p_e);
@@ -159,7 +160,7 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 	if (k == df::Keyboard::ESCAPE) { //quit
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
 			GM.setGameOver();
-			//WM.markForDelete(this);
+		//WM.markForDelete(this);
 	}
 	if (k == df::Keyboard::U) { //restart
 		currentRoom->unloadRoom();
@@ -252,7 +253,7 @@ void Hero::out() {
 		r = currentRoom->getNextRoom(RoomDirection::UP);
 		v = Vector(getPosition().getX(), WM.getBoundary().getVertical() - 4);
 	}
-	else if (getPosition().getY() > WM.getBoundary().getVertical() && 
+	else if (getPosition().getY() > WM.getBoundary().getVertical() &&
 		currentRoom->getNextRoom(RoomDirection::DOWN) != NULL) {
 		r = currentRoom->getNextRoom(RoomDirection::DOWN);
 		v = Vector(getPosition().getX(), 2);
@@ -328,18 +329,6 @@ void Hero::handleCollisions(const EventCollision* p_ec) {
 	else if (p_ec->getObject2()->getType() == "PowerUp") {
 		getPowerUp(dynamic_cast<PowerUp*>(p_ec->getObject2())->type);
 	}
-	else if ((p_ec->getObject1()->getType() == "Enemy" || (p_ec->getObject1()->getType() == "Arrow")) && damage_cooldown == 0) {
-		/*Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject1());
-		df::EventView ev(HEALTH_STRING, -e->getDamage() , true*/
-		//WM.onEvent(&ev);
-		damage_cooldown = damage_slowdown;
-	}
-	else if ((p_ec->getObject2()->getType() == "Enemy" || (p_ec->getObject2()->getType() == "Arrow")) && damage_cooldown == 0) {
-		/*Enemy* e = dynamic_cast<Enemy*>(p_ec->getObject2());
-		df::EventView ev(HEALTH_STRING, -e->getDamage(), true);
-		WM.onEvent(&ev);*/
-		damage_cooldown = damage_slowdown;
-	}
 	else if (p_ec->getObject1()->getType() == "Cube") {
 		Cube* c = dynamic_cast<Cube*>(p_ec->getObject1());
 		cube_held = c;
@@ -372,7 +361,7 @@ void Hero::usePortal(Portal* p) {
 				red_portal->setSolidness(SOFT);
 			}
 		}
-		else if (!p->isBluePortal() && blue_portal != NULL){
+		else if (!p->isBluePortal() && blue_portal != NULL) {
 			if (blue_portal->canUse) {
 				LM.writeLog("red");
 				this->setPosition(blue_portal->getPosition());
@@ -428,13 +417,14 @@ void Hero::dropCube() {
 		offset = Vector(4, 0);
 		break;
 	}
-	
+
 	cube_held->drop(getPosition() + offset);
 	ItemContainer* ic = currentRoom->getItemContainer(cube_held->getId());
 	ic->setPosition(cube_held->getPosition());
 	cube_held = NULL;
 }
 void Hero::win() {
+	p_music->stop();
 	dead = true;
 	//DM.setBackgroundColor(YELLOW);
 }

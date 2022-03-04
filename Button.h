@@ -11,8 +11,9 @@
 class Button : public Item
 {
 private: 
-	int button_id;
+
 public:
+	int button_id;
 	int countdown;
 	int slowdown;
 	Button(df::Vector positon, int id, int button_id, bool arrow_pressed);

@@ -139,7 +139,6 @@ void GameStart::start() {
 
     new Points;
     new HealthDisplay;
-
     // When game starts, become inactive.
     setActive(false);
 }

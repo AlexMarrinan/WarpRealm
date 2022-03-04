@@ -12,6 +12,7 @@ using namespace df;
 #define WALL_N1_STR "n_1"
 #define WALL_WATER_STR "water_tile"
 #define WALL_FIZZLER_STR "fizzler"
+#define WALL_FIZZLER_V_STR "fizzler-v"
 #define WALL_DLH_STR "door_locked_h"
 #define WALL_DLV_STR "door_locked_v"
 #define WALL_DV_STR "door_v"
@@ -29,6 +30,7 @@ enum WallType {
 	N_1,
 	WATER,
 	FIZZLER,
+	FIZZLER_V,
 };
 class Wall : public Object
 {

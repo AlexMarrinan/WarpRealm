@@ -4,6 +4,7 @@
 #include "GameManager.h"
 #include "GameStart.h"
 #include "ResourceManager.h"
+#include "Sound.h"
 
 GameOver::GameOver(){
 	// Play "game over" sound.
@@ -21,7 +22,8 @@ GameOver::GameOver(){
 
 	// Put in center of window.
 	setLocation(df::CENTER_CENTER);
-
+	df::Sound* p_sound = RM.getSound("win");
+	p_sound->play();
 	// Register for step event.
 	registerInterest(df::STEP_EVENT);
 }

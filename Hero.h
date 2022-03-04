@@ -6,6 +6,7 @@
 #include "Room.h"
 #include "Cube.h"
 #include "PowerUp.h"
+#include "ResourceManager.h"
 
 class Hero : public df::Object {
 
@@ -28,7 +29,7 @@ private:
     bool hasPortalGun;
     bool hasSword;
     bool dead;
-    
+    Music* p_music;
     Portal* blue_portal;
     Portal* red_portal;
     Cube* cube_held;

@@ -3,24 +3,35 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "Hero.h"
+#include "ResourceManager.h"
 
 Arrow::Arrow(df::Vector direction, df::Vector pos, Room* room) {
 	//red_portal = Hero::getPortal(false);
 	//blue_portal = Hero.getPortal(true);
 	setPosition(pos);
 	setDirection(direction);
-	if (getDirection().getX() == 0) {
-		setSprite("arrow-v");
-		setSpeed(0.1);
+	if (direction.getX() == 2) {
+		setSprite("arrow-r");
+		setSpeed(0.25);
 	}
-	else {
-		setSprite("arrow-h");
+	else if (direction.getX() == -2) {
+		setSprite("arrow-l");
+		setSpeed(0.25);
+	}
+	else if (direction.getY() == 1) {
+		setSprite("arrow-d");
+		setSpeed(0.125);
+	}
+	else if (direction.getY() == -1) {
+		setSprite("arrow-u");
 		setSpeed(0.25);
 	}
 	this->room = room;
 	room->loaded.insert(this);
 	setType("Arrow");
 	setSolidness(SOFT);
+	df::Sound* p_sound = RM.getSound("arrow-shoot");
+	p_sound->play();
 	setDamage(1);
 	registerInterest(COLLISION_EVENT);
 }
@@ -43,6 +54,12 @@ int Arrow::eventHandler(const df::Event* p_e) {
 			return 0;
 		}
 		else if (p_ec->getObject1()->getType() == "Fizzler" || p_ec->getObject2()->getType() == "Fizzler") {
+			return 0;
+		}
+		else if (p_ec->getObject1()->getType() == "Hero" || p_ec->getObject2()->getType() == "Hero") {
+			return 0;
+		}
+		else if (p_ec->getObject1()->getType() == "Arrow" && p_ec->getObject2()->getType() == "Arrow") {
 			return 0;
 		}
 		room->loaded.remove(this);
@@ -72,11 +89,11 @@ void Arrow::usePortal(Portal* p)
 			offset.setXY(0, 3);
 		}
 		else if (pd == L) {
-			nd.setXY(-1, 0);
+			nd.setXY(-2, 0);
 			offset.setXY(-5, 0);
 		}
 		else if (pd == R) {
-			nd.setXY(1, 0);
+			nd.setXY(2, 0);
 			offset.setXY(5, 0);
 		}
 		new Arrow(nd, p->getOtherPortal()->getPosition() + offset, this->room);
@@ -97,11 +114,11 @@ void Arrow::usePortal(Portal* p)
 			offset.setXY(0, 3);
 		}
 		else if (pd == L) {
-			nd.setXY(-1, 0);
+			nd.setXY(-2, 0);
 			offset.setXY(-5, 0);
 		}
 		else if (pd == R) {
-			nd.setXY(1, 0);
+			nd.setXY(2, 0);
 			offset.setXY(5, 0);
 		}
 		new Arrow(nd, p->getOtherPortal()->getPosition() + offset, this->room);

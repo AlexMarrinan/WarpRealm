@@ -1,12 +1,25 @@
 <HEADER>
-frames 1
+frames 3
 width 7
-height 1
-color yellow
-slowdown 
+height 4
+color white
+slowdown 5
 </HEADER>
 <BODY>
-PORTALS
+_______
+|~   ~|
+|~ O  |
+|___~_|
+end
+_______
+|  ~  |
+|  O  |
+|_~~__|
+end
+_______
+|   ~ |
+|~ O ~|
+|__~__|
 end
 </BODY>
 <FOOTER>

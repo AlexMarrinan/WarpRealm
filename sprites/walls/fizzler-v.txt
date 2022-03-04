@@ -1,0 +1,28 @@
+<HEADER>
+frames 4
+width 3
+height 3
+color cyan
+slowdown 2
+</HEADER>
+<BODY>
+| }
+} {
+{ |
+end
+} {
+{ |
+| {
+end
+} |
+| {
+| }
+end
+| {
+} }
+{ }
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>
